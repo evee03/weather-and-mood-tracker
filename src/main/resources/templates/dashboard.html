@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Weather Mood Tracker</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body class="dashboard-page">
+<nav class="navbar">
+    <h1>Weather Mood Tracker</h1>
+    <div class="navbar-right">
+        <span th:text="'Welcome, ' + ${user.username} + '!'"></span>
+        <a th:href="@{/logout}" class="logout-btn">Logout</a>
+    </div>
+</nav>
+
+<div class="dashboard-container">
+    <div class="welcome-card">
+        <h2>Dashboard!</h2>
+        <p>You have successfully logged in.</p>
+
+        <div class="user-info">
+            <p><strong>Username:</strong> <span th:text="${user.username}"></span></p>
+            <p><strong>Email:</strong> <span th:text="${user.email}"></span></p>
+            <p th:if="${user.city}"><strong>City:</strong> <span th:text="${user.city}"></span></p>
+            <p><strong>Member since:</strong> <span th:text="${#temporals.format(user.createdAt, 'dd-MM-yyyy HH:mm')}"></span></p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

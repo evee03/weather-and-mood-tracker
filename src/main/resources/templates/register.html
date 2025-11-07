@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Weather Mood Tracker</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body class="auth-page">
+<div class="particles">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+</div>
+
+<div class="container">
+    <h2>Register</h2>
+
+    <div th:if="${error}" class="alert alert-error" th:text="${error}"></div>
+
+    <form th:action="@{/register}" th:object="${user}" method="post">
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text"
+                   id="username"
+                   th:field="*{username}"
+                   placeholder="Enter username">
+            <div class="error" th:if="${#fields.hasErrors('username')}"
+                 th:errors="*{username}"></div>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email"
+                   id="email"
+                   th:field="*{email}"
+                   placeholder="Enter email">
+            <div class="error" th:if="${#fields.hasErrors('email')}"
+                 th:errors="*{email}"></div>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password"
+                   id="password"
+                   th:field="*{password}"
+                   placeholder="Enter password (min. 6 characters)">
+            <div class="error" th:if="${#fields.hasErrors('password')}"
+                 th:errors="*{password}"></div>
+        </div>
+
+        <div class="form-group">
+            <label for="confirmPassword">Confirm Password</label>
+            <input type="password"
+                   id="confirmPassword"
+                   th:field="*{confirmPassword}"
+                   placeholder="Confirm password">
+            <div class="error" th:if="${#fields.hasErrors('confirmPassword')}"
+                 th:errors="*{confirmPassword}"></div>
+        </div>
+
+        <div class="form-group">
+            <label for="city">City <span class="optional">(Optional)</span></label>
+            <input type="text"
+                   id="city"
+                   th:field="*{city}"
+                   placeholder="Enter your city">
+        </div>
+
+        <button type="submit" class="btn">Register</button>
+    </form>
+
+    <div class="login-link">
+        Already have an account? <a th:href="@{/login}">Login here</a>
+    </div>
+</div>
+</body>
+</html>
