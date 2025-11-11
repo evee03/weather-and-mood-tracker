@@ -20,11 +20,15 @@ public class Settings {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @OneToOne
+    @JoinColumn(name = "user_id", nullable = false, unique = true)
+    private User user;
+
     @Enumerated(EnumType.STRING)
-    @Column(name= "preferred_language", nullable = false, length = 5)
-    private Language preferredLanguage;
+    @Column(name = "preferred_language", nullable = false, length = 5)
+    private Language preferredLanguage = Language.PL;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 10)
-    private Theme theme;
+    private Theme theme = Theme.LIGHT;
 }

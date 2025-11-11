@@ -3,10 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register - Weather Mood Tracker</title>
+    <title th:text="#{page.register.title}">Register - Weather Mood Tracker</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body class="auth-page">
+<div class="settings-dropdown">
+    <button class="settings-btn" onclick="toggleSettings()">⚙️</button>
+    <div id="settingsMenu" class="settings-menu">
+        <div class="settings-section">
+            <h4 th:text="#{page.dashboard.settings.language}">Language</h4>
+            <a th:href="@{/register(lang='pl')}" class="setting-option">
+                🇵🇱 Polski
+            </a>
+            <a th:href="@{/register(lang='en')}" class="setting-option">
+                🇬🇧 English
+            </a>
+        </div>
+        <div class="settings-divider"></div>
+        <div class="settings-section">
+            <h4 th:text="#{page.dashboard.settings.theme}">Theme</h4>
+            <button class="setting-option" onclick="changeTheme('light')">
+                ☀️ <span th:text="#{page.dashboard.settings.theme.light}">Light</span>
+            </button>
+            <button class="setting-option" onclick="changeTheme('dark')">
+                🌙 <span th:text="#{page.dashboard.settings.theme.dark}">Dark</span>
+            </button>
+        </div>
+    </div>
+</div>
+
 <div class="particles">
     <span></span>
     <span></span>
@@ -19,66 +44,110 @@
     <span></span>
 </div>
 
-<div class="container">
-    <h2>Register</h2>
+<div class="login-wrapper">
+    <div class="logo-container">
+        <img th:src="@{/images/Logo_.svg}"
+             alt="Weather Mood Tracker Logo">
+    </div>
 
-    <div th:if="${error}" class="alert alert-error" th:text="${error}"></div>
+    <div class="container register-container">
+        <h2 th:text="#{page.register.heading}">Register</h2>
 
-    <form th:action="@{/register}" th:object="${user}" method="post">
-        <div class="form-group">
-            <label for="username">Username</label>
-            <input type="text"
-                   id="username"
-                   th:field="*{username}"
-                   placeholder="Enter username">
-            <div class="error" th:if="${#fields.hasErrors('username')}"
-                 th:errors="*{username}"></div>
+        <div th:if="${error}" class="alert alert-error" th:text="${error}"></div>
+
+        <form th:action="@{/register}" th:object="${user}" method="post">
+            <div class="form-grid">
+                <!-- Username - lewa kolumna -->
+                <div class="form-group">
+                    <label for="username" th:text="#{page.register.username.label}">Username</label>
+                    <input type="text"
+                           id="username"
+                           th:field="*{username}"
+                           th:placeholder="#{page.register.username.placeholder}">
+                    <div class="error" th:if="${#fields.hasErrors('username')}"
+                         th:errors="*{username}"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email" th:text="#{page.register.email.label}">Email</label>
+                    <input type="email"
+                           id="email"
+                           th:field="*{email}"
+                           th:placeholder="#{page.register.email.placeholder}">
+                    <div class="error" th:if="${#fields.hasErrors('email')}"
+                         th:errors="*{email}"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password" th:text="#{page.register.password.label}">Password</label>
+                    <input type="password"
+                           id="password"
+                           th:field="*{password}"
+                           th:placeholder="#{page.register.password.placeholder}">
+                    <div class="error" th:if="${#fields.hasErrors('password')}"
+                         th:errors="*{password}"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword" th:text="#{page.register.confirmPassword.label}">Confirm Password</label>
+                    <input type="password"
+                           id="confirmPassword"
+                           th:field="*{confirmPassword}"
+                           th:placeholder="#{page.register.confirmPassword.placeholder}">
+                    <div class="error" th:if="${#fields.hasErrors('confirmPassword')}"
+                         th:errors="*{confirmPassword}"></div>
+                </div>
+            </div>
+
+            <div class="form-group form-full-width">
+                <label for="city">
+                    <span th:text="#{page.register.city.label}">City</span>
+                    <span class="optional" th:text="#{page.register.city.optional}">(Optional)</span>
+                </label>
+                <input type="text"
+                       id="city"
+                       th:field="*{city}"
+                       th:placeholder="#{page.register.city.placeholder}">
+            </div>
+
+            <button type="submit" class="btn" th:text="#{page.register.button}">Register</button>
+        </form>
+
+        <div class="login-link">
+            <span th:text="#{page.register.login.text}">Already have an account?</span>
+            <a th:href="@{/login}" th:text="#{page.register.login.link}">Login here</a>
         </div>
-
-        <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email"
-                   id="email"
-                   th:field="*{email}"
-                   placeholder="Enter email">
-            <div class="error" th:if="${#fields.hasErrors('email')}"
-                 th:errors="*{email}"></div>
-        </div>
-
-        <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password"
-                   id="password"
-                   th:field="*{password}"
-                   placeholder="Enter password (min. 6 characters)">
-            <div class="error" th:if="${#fields.hasErrors('password')}"
-                 th:errors="*{password}"></div>
-        </div>
-
-        <div class="form-group">
-            <label for="confirmPassword">Confirm Password</label>
-            <input type="password"
-                   id="confirmPassword"
-                   th:field="*{confirmPassword}"
-                   placeholder="Confirm password">
-            <div class="error" th:if="${#fields.hasErrors('confirmPassword')}"
-                 th:errors="*{confirmPassword}"></div>
-        </div>
-
-        <div class="form-group">
-            <label for="city">City <span class="optional">(Optional)</span></label>
-            <input type="text"
-                   id="city"
-                   th:field="*{city}"
-                   placeholder="Enter your city">
-        </div>
-
-        <button type="submit" class="btn">Register</button>
-    </form>
-
-    <div class="login-link">
-        Already have an account? <a th:href="@{/login}">Login here</a>
     </div>
 </div>
+
+<script>
+    function toggleSettings() {
+        const menu = document.getElementById('settingsMenu');
+        menu.classList.toggle('show');
+    }
+
+    window.onclick = function(event) {
+        if (!event.target.matches('.settings-btn')) {
+            const menu = document.getElementById('settingsMenu');
+            if (menu.classList.contains('show')) {
+                menu.classList.remove('show');
+            }
+        }
+    }
+
+    function changeTheme(theme) {
+        console.log('Changing theme to:', theme);
+        document.body.className = 'auth-page theme-' + theme;
+
+        localStorage.setItem('theme', theme);
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            document.body.className = 'auth-page theme-' + savedTheme;
+        }
+    });
+</script>
 </body>
 </html>
