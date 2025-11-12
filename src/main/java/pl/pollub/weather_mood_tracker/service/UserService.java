@@ -111,7 +111,6 @@ public class UserService {
         }
     }
 
-    // ← DODAJ TĘ METODĘ
     @Transactional
     public void updateUserTheme(Long userId, String themeString) {
         Optional<User> userOpt = findById(userId);

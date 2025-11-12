@@ -20,12 +20,12 @@
                     <a th:href="@{/dashboard(lang='pl')}"
                        class="setting-option"
                        th:classappend="${userLanguage == 'pl'} ? 'active' : ''">
-                        🇵🇱 Polski
+                        Polski
                     </a>
                     <a th:href="@{/dashboard(lang='en')}"
                        class="setting-option"
                        th:classappend="${userLanguage == 'en'} ? 'active' : ''">
-                        🇬🇧 English
+                        English
                     </a>
                 </div>
                 <div class="settings-divider"></div>
@@ -34,12 +34,12 @@
                     <button class="setting-option"
                             onclick="changeTheme('light')"
                             th:attr="data-active=${userTheme == 'light'}">
-                        ☀️ <span th:text="#{page.dashboard.settings.theme.light}">Light</span>
+                        <span th:text="#{page.dashboard.settings.theme.light}">Light</span>
                     </button>
                     <button class="setting-option"
                             onclick="changeTheme('dark')"
                             th:attr="data-active=${userTheme == 'dark'}">
-                        🌙 <span th:text="#{page.dashboard.settings.theme.dark}">Dark</span>
+                        <span th:text="#{page.dashboard.settings.theme.dark}">Dark</span>
                     </button>
                 </div>
             </div>
@@ -74,56 +74,6 @@
         </div>
     </div>
 </div>
-
-<script th:inline="javascript">
-    /*<![CDATA[*/
-    const savedTheme = /*[[${userTheme}]]*/ 'light';
-
-    function toggleSettings() {
-        const menu = document.getElementById('settingsMenu');
-        menu.classList.toggle('show');
-    }
-
-    // Close dropdown when clicking outside
-    window.onclick = function(event) {
-        if (!event.target.matches('.settings-btn')) {
-            const menu = document.getElementById('settingsMenu');
-            if (menu.classList.contains('show')) {
-                menu.classList.remove('show');
-            }
-        }
-    }
-
-    function changeTheme(theme) {
-        console.log('Changing theme to:', theme);
-        document.body.className = 'dashboard-page theme-' + theme;
-        document.body.setAttribute('data-theme', theme);
-
-        // Wyślij do backendu
-        fetch('/api/settings/theme', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ theme: theme.toUpperCase() })
-        }).then(response => {
-            if (response.ok) {
-                console.log('Theme saved successfully');
-                // Odśwież stronę aby zaktualizować active state
-                location.reload();
-            }
-        }).catch(error => {
-            console.error('Error saving theme:', error);
-        });
-    }
-
-    // Załaduj zapisany motyw przy starcie
-    document.addEventListener('DOMContentLoaded', function() {
-        if (savedTheme) {
-            document.body.className = 'dashboard-page theme-' + savedTheme;
-        }
-    });
-    /*]]>*/
-</script>
+<script th:src="@{/js/theme-manager.js}"></script>
 </body>
 </html>

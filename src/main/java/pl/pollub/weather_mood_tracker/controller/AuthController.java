@@ -113,7 +113,6 @@ public class AuthController {
             User user = userOpt.get();
             model.addAttribute("user", user);
 
-            // Dodaj preferencje do modelu
             if (user.getSettings() != null) {
                 model.addAttribute("userTheme", user.getSettings().getTheme().name().toLowerCase());
                 model.addAttribute("userLanguage", user.getSettings().getPreferredLanguage().name().toLowerCase());

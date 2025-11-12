@@ -13,20 +13,20 @@
         <div class="settings-section">
             <h4 th:text="#{page.dashboard.settings.language}">Language</h4>
             <a th:href="@{/login(lang='pl')}" class="setting-option">
-                🇵🇱 Polski
+                Polski
             </a>
             <a th:href="@{/login(lang='en')}" class="setting-option">
-                🇬🇧 English
+                English
             </a>
         </div>
         <div class="settings-divider"></div>
         <div class="settings-section">
             <h4 th:text="#{page.dashboard.settings.theme}">Theme</h4>
             <button class="setting-option" onclick="changeTheme('light')">
-                ☀️ <span th:text="#{page.dashboard.settings.theme.light}">Light</span>
+                <span th:text="#{page.dashboard.settings.theme.light}">Light</span>
             </button>
             <button class="setting-option" onclick="changeTheme('dark')">
-                🌙 <span th:text="#{page.dashboard.settings.theme.dark}">Dark</span>
+                <span th:text="#{page.dashboard.settings.theme.dark}">Dark</span>
             </button>
         </div>
     </div>
@@ -86,35 +86,6 @@
         </div>
     </div>
 </div>
-
-<script>
-    function toggleSettings() {
-        const menu = document.getElementById('settingsMenu');
-        menu.classList.toggle('show');
-    }
-
-    window.onclick = function(event) {
-        if (!event.target.matches('.settings-btn')) {
-            const menu = document.getElementById('settingsMenu');
-            if (menu.classList.contains('show')) {
-                menu.classList.remove('show');
-            }
-        }
-    }
-
-    function changeTheme(theme) {
-        console.log('Changing theme to:', theme);
-        document.body.className = 'auth-page theme-' + theme;
-
-        localStorage.setItem('theme', theme);
-    }
-
-    document.addEventListener('DOMContentLoaded', function() {
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme) {
-            document.body.className = 'auth-page theme-' + savedTheme;
-        }
-    });
-</script>
+<script th:src="@{/js/theme-manager.js}"></script>
 </body>
 </html>

@@ -526,6 +526,12 @@ body.theme-dark .welcome-card {
     color: #e0e0e0;
 }
 
+body.theme-dark h1,
+body.theme-dark h2,
+body.theme-dark h3 {
+    color: #e0e0e0;
+}
+
 body.theme-dark .settings-menu {
     background: #2c2c2c;
     color: #e0e0e0;
