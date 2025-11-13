@@ -3,30 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Weather Mood Tracker</title>
+    <title th:text="#{page.dashboard.title}">Dashboard - Weather Mood Tracker</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
-<body class="dashboard-page">
+<body class="dashboard-page" th:attr="data-theme=${userTheme}, data-language=${userLanguage}">
+
 <nav class="navbar">
-    <h1>Weather Mood Tracker</h1>
+    <h1 th:text="#{page.dashboard.navbar.title}">Weather Mood Tracker</h1>
     <div class="navbar-right">
-        <span th:text="'Welcome, ' + ${user.username} + '!'"></span>
-        <a th:href="@{/logout}" class="logout-btn">Logout</a>
+        <!-- Settings Dropdown -->
+        <div class="settings-dropdown">
+            <button class="settings-btn" onclick="toggleSettings()">⚙️</button>
+            <div id="settingsMenu" class="settings-menu">
+                <div class="settings-section">
+                    <h4 th:text="#{page.dashboard.settings.language}">Language</h4>
+                    <a th:href="@{/dashboard(lang='pl')}"
+                       class="setting-option"
+                       th:classappend="${userLanguage == 'pl'} ? 'active' : ''">
+                        Polski
+                    </a>
+                    <a th:href="@{/dashboard(lang='en')}"
+                       class="setting-option"
+                       th:classappend="${userLanguage == 'en'} ? 'active' : ''">
+                        English
+                    </a>
+                </div>
+                <div class="settings-divider"></div>
+                <div class="settings-section">
+                    <h4 th:text="#{page.dashboard.settings.theme}">Theme</h4>
+                    <button class="setting-option"
+                            onclick="changeTheme('light')"
+                            th:attr="data-active=${userTheme == 'light'}">
+                        <span th:text="#{page.dashboard.settings.theme.light}">Light</span>
+                    </button>
+                    <button class="setting-option"
+                            onclick="changeTheme('dark')"
+                            th:attr="data-active=${userTheme == 'dark'}">
+                        <span th:text="#{page.dashboard.settings.theme.dark}">Dark</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <a th:href="@{/logout}" class="logout-btn" th:text="#{page.dashboard.logout}">Logout</a>
     </div>
 </nav>
 
 <div class="dashboard-container">
     <div class="welcome-card">
-        <h2>Dashboard!</h2>
-        <p>You have successfully logged in.</p>
+        <h2 th:text="#{page.dashboard.heading}">Panel!</h2>
+        <p class="welcome-message" th:text="#{page.dashboard.welcome(${user.username})}">Witaj, username!</p>
+        <p th:text="#{page.dashboard.success.message}">You have successfully logged in.</p>
 
         <div class="user-info">
-            <p><strong>Username:</strong> <span th:text="${user.username}"></span></p>
-            <p><strong>Email:</strong> <span th:text="${user.email}"></span></p>
-            <p th:if="${user.city}"><strong>City:</strong> <span th:text="${user.city}"></span></p>
-            <p><strong>Member since:</strong> <span th:text="${#temporals.format(user.createdAt, 'dd-MM-yyyy HH:mm')}"></span></p>
+            <p>
+                <strong th:text="#{page.dashboard.username}">Username:</strong>
+                <span th:text="${user.username}"></span>
+            </p>
+            <p>
+                <strong th:text="#{page.dashboard.email}">Email:</strong>
+                <span th:text="${user.email}"></span>
+            </p>
+            <p th:if="${user.city}">
+                <strong th:text="#{page.dashboard.city}">City:</strong>
+                <span th:text="${user.city}"></span>
+            </p>
+            <p>
+                <strong th:text="#{page.dashboard.member.since}">Member since:</strong>
+                <span th:text="${#temporals.format(user.createdAt, 'dd-MM-yyyy HH:mm')}"></span>
+            </p>
         </div>
     </div>
 </div>
+<script th:src="@{/js/theme-manager.js}"></script>
 </body>
 </html>

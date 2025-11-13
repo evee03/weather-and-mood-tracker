@@ -14,14 +14,15 @@ body {
 /* ========================================
    TŁO DLA STRON LOGOWANIA I REJESTRACJI
    ======================================== */
+
 body.auth-page {
     background: #7d96dc;
     min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    display: block;
     position: relative;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 60px 20px;
 }
 
 /* ========================================
@@ -164,6 +165,21 @@ h2 {
     margin-bottom: 30px;
 }
 
+.register-container {
+    max-width: 650px !important;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.form-full-width {
+    grid-column: 1 / -1;
+}
+
 /* ========================================
    FORMULARZE
    ======================================== */
@@ -279,6 +295,8 @@ input:focus {
     justify-content: space-between;
     align-items: center;
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    position: relative;
+    z-index: 100;
 }
 
 .navbar h1 {
@@ -289,6 +307,8 @@ input:focus {
     display: flex;
     align-items: center;
     gap: 20px;
+    position: relative;
+    z-index: 10;
 }
 
 .logout-btn {
@@ -300,6 +320,8 @@ input:focus {
     cursor: pointer;
     text-decoration: none;
     transition: background 0.3s;
+    position: relative;
+    z-index: 10;
 }
 
 .logout-btn:hover {
@@ -339,4 +361,310 @@ input:focus {
 
 .user-info strong {
     color: #667eea;
+}
+
+/* ========================================
+   LANGUAGE SWITCH (AUTH PAGES)
+   ======================================== */
+.language-switcher {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 900;
+    display: flex;
+    gap: 10px;
+}
+
+.lang-link {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 8px 15px;
+    border-radius: 5px;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s;
+    backdrop-filter: blur(10px);
+}
+
+.lang-link:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+/* ========================================
+   SETTINGS DROPDOWN (DASHBOARD & AUTH)
+   ======================================== */
+.settings-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.navbar-right .settings-dropdown {
+    margin-right: 0;
+}
+
+body.auth-page .settings-dropdown {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1100;
+}
+
+.settings-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 50%;
+    transition: transform 0.3s ease, background 0.3s;
+    backdrop-filter: blur(10px);
+    position: relative;
+    z-index: 1101;
+}
+
+.settings-btn:hover {
+    transform: rotate(90deg);
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.settings-menu {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 50px;
+    background: white;
+    min-width: 200px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    z-index: 1200;
+    overflow: hidden;
+}
+
+.settings-menu.show {
+    display: block;
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.settings-section {
+    padding: 15px;
+}
+
+.settings-section h4 {
+    margin: 0 0 10px 0;
+    font-size: 14px;
+    color: #666;
+    text-transform: uppercase;
+}
+
+.setting-option {
+    display: block;
+    width: 100%;
+    padding: 10px 15px;
+    text-align: left;
+    background: none;
+    border: none;
+    color: #333;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
+.setting-option:hover {
+    background: #f0f0f0;
+}
+
+.settings-divider {
+    height: 1px;
+    background: #e0e0e0;
+}
+
+.welcome-message {
+    font-size: 18px;
+    color: #555;
+    margin: 10px 0 20px 0;
+    font-weight: 500;
+}
+
+/* ========================================
+   ACTIVE STATE
+   ======================================== */
+.setting-option.active,
+.setting-option[data-active="true"] {
+    background: #e3f2fd;
+    color: #1976d2;
+    font-weight: 600;
+}
+
+/* ========================================
+   DARK THEME - DASHBOARD
+   ======================================== */
+body.theme-dark {
+    background: #1a1a1a;
+    color: #e0e0e0;
+}
+
+body.theme-dark .navbar {
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+}
+
+body.theme-dark .welcome-card {
+    background: rgba(50, 50, 50, 0.9);
+    color: #e0e0e0;
+}
+
+body.theme-dark h1,
+body.theme-dark h2,
+body.theme-dark h3 {
+    color: #e0e0e0;
+}
+
+body.theme-dark .settings-menu {
+    background: #2c2c2c;
+    color: #e0e0e0;
+}
+
+body.theme-dark .setting-option {
+    color: #e0e0e0;
+}
+
+body.theme-dark .setting-option:hover {
+    background: #3c3c3c;
+}
+
+body.theme-dark .settings-section h4 {
+    color: #999;
+}
+
+body.theme-dark .setting-option.active,
+body.theme-dark .setting-option[data-active="true"] {
+    background: #1565c0;
+    color: #fff;
+}
+
+/* ========================================
+   DARK THEME - AUTH PAGES
+   ======================================== */
+body.auth-page.theme-dark {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+}
+
+body.auth-page.theme-dark .container {
+    background: rgba(30, 30, 30, 0.95);
+    color: #e0e0e0;
+}
+
+body.auth-page.theme-dark .container h2 {
+    color: #fff;
+}
+
+body.auth-page.theme-dark input {
+    background: rgba(50, 50, 50, 0.8);
+    color: #e0e0e0;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+body.auth-page.theme-dark input::placeholder {
+    color: #999;
+}
+
+body.auth-page.theme-dark .btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+body.auth-page.theme-dark .btn:hover {
+    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+}
+
+body.auth-page.theme-dark .register-link,
+body.auth-page.theme-dark .login-link {
+    color: #ccc;
+}
+
+body.auth-page.theme-dark .register-link a,
+body.auth-page.theme-dark .login-link a {
+    color: #667eea;
+}
+
+body.auth-page.theme-dark .settings-menu {
+    background: #2c2c2c;
+    color: #e0e0e0;
+}
+
+body.auth-page.theme-dark .setting-option {
+    color: #e0e0e0;
+}
+
+body.auth-page.theme-dark .setting-option:hover {
+    background: #3c3c3c;
+}
+
+body.auth-page.theme-dark .settings-section h4 {
+    color: #999;
+}
+
+body.auth-page.theme-dark label {
+    color: #e0e0e0;
+}
+
+body.auth-page.theme-dark .alert-error {
+    background: rgba(198, 40, 40, 0.2);
+    border-color: #c62828;
+    color: #ff6b6b;
+}
+
+body.auth-page.theme-dark .alert-success {
+    background: rgba(46, 125, 50, 0.2);
+    border-color: #2e7d32;
+    color: #81c784;
+}
+
+/* ========================================
+   LOGO
+   ======================================== */
+
+.login-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-top: -50px;
+}
+
+.logo-container {
+    position: relative;
+    z-index: 10;
+    margin-bottom: -60px;
+    animation: logoFloat 0.8s ease-out;
+}
+
+.logo-container img {
+    width: 256px;
+    height: 256px;
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.2));
+}
+
+@keyframes logoFloat {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
