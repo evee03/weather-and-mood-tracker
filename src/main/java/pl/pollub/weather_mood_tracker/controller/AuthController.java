@@ -15,6 +15,7 @@ import pl.pollub.weather_mood_tracker.dto.UserLoginDto;
 import pl.pollub.weather_mood_tracker.dto.UserRegistrationDto;
 import pl.pollub.weather_mood_tracker.model.User;
 import pl.pollub.weather_mood_tracker.service.UserService;
+import pl.pollub.weather_mood_tracker.dto.MoodEntryDto;
 
 import java.util.Locale;
 import java.util.Map;
@@ -106,6 +107,10 @@ public class AuthController {
 
         if (userId == null) {
             return "redirect:/login";
+        }
+
+        if (!model.containsAttribute("moodEntry")) {
+            model.addAttribute("moodEntry", new MoodEntryDto());
         }
 
         Optional<User> userOpt = userService.findById(userId);
