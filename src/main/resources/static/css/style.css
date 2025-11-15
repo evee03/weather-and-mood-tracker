@@ -675,12 +675,14 @@ body.auth-page.theme-dark .alert-success {
     }
 }
 
-/* Ukrywa domyślne radio buttons */
+/* ========================================
+   MOOD FORM
+   ======================================== */
+
 .mood-rating input[type="radio"] {
     display: none;
 }
 
-/* Stylizuje etykiety (emotikony) */
 .mood-rating label {
     font-size: 2.5rem;
     cursor: pointer;
@@ -693,7 +695,6 @@ body.auth-page.theme-dark .alert-success {
     opacity: 0.8;
 }
 
-/* Styl dla zaznaczonej opcji */
 .mood-rating input[type="radio"]:checked + label {
     opacity: 1;
     transform: scale(1.1);
@@ -711,7 +712,6 @@ body.auth-page.theme-dark .alert-success {
     resize: vertical;
 }
 
-/* Komunikaty alertów (możesz już je mieć) */
 .alert {
     padding: 15px;
     margin-bottom: 20px;
