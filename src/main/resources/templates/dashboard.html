@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title th:text="#{page.dashboard.title}">Dashboard - Weather Mood Tracker</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 <body class="dashboard-page" th:attr="data-theme=${userTheme}, data-language=${userLanguage}">
 
@@ -72,8 +74,51 @@
                 <span th:text="${#temporals.format(user.createdAt, 'dd-MM-yyyy HH:mm')}"></span>
             </p>
         </div>
+
+        <h3 th:text="#{mood.form.heading}">How are you feeling today?</h3>
+
+        <div th:if="${moodSuccess}" class="alert alert-success" th:text="${moodSuccess}"></div>
+        <div th:if="${moodError}" class="alert alert-error" th:text="${moodError}"></div>
+
+        <form th:action="@{/dashboard/mood}" th:object="${moodEntry}" method="post" class="mood-form">
+
+            <div class="form-group">
+                <label th:text="#{mood.form.level.label}">Your mood:</label>
+                <div class="mood-rating">
+                    <input type="radio" id="mood1" th:field="*{moodLevel}" value="1" required>
+                    <label for="mood1">😞</label>
+                    <input type="radio" id="mood2" th:field="*{moodLevel}" value="2" required>
+                    <label for="mood2">😕</label>
+                    <input type="radio" id="mood3" th:field="*{moodLevel}" value="3" required>
+                    <label for="mood3">😐</label>
+                    <input type="radio" id="mood4" th:field="*{moodLevel}" value="4" required>
+                    <label for="mood4">🙂</label>
+                    <input type="radio" id="mood5" th:field="*{moodLevel}" value="5" required>
+                    <label for="mood5">😄</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="comment" th:text="#{mood.form.comment.label}">Note (optional):</label>
+                <textarea id="comment" th:field="*{comment}"
+                          rows="3"
+                          th:placeholder="#{mood.form.comment.placeholder}"></textarea>
+            </div>
+
+            <button type="submit" class="btn" th:text="#{mood.form.submit}">Save mood</button>
+        </form>
+
+        <h3 th:text="#{page.dashboard.location}">Your location</h3>
+        <div id="map" style="height: 300px; width: 100%; border-radius: 8px;"
+             th:attr="data-city=${#strings.isEmpty(user.city) ? 'Warszawa' : user.city},
+              data-city-custom=${!#strings.isEmpty(user.city)},
+              data-label-user-city=#{page.dashboard.user_city},
+              data-label-default-city=#{page.dashboard.default_city},
+              data-label-error-loading=#{page.dashboard.error.loading}">
+        </div>
     </div>
 </div>
 <script th:src="@{/js/theme-manager.js}"></script>
+<script th:src="@{/js/location-manager.js}"></script>
 </body>
 </html>

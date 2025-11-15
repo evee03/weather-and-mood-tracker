@@ -350,6 +350,12 @@ input:focus {
     margin-bottom: 10px;
 }
 
+.welcome-card h3 {
+    color: #333;
+    margin-top: 25px;
+    margin-bottom: 15px;
+}
+
 .user-info {
     color: #666;
     margin-top: 20px;
@@ -667,4 +673,58 @@ body.auth-page.theme-dark .alert-success {
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+/* ========================================
+   MOOD FORM
+   ======================================== */
+
+.mood-rating input[type="radio"] {
+    display: none;
+}
+
+.mood-rating label {
+    font-size: 2.5rem;
+    cursor: pointer;
+    padding: 0 0.25em;
+    opacity: 0.5;
+    transition: opacity 0.2s;
+}
+
+.mood-rating label:hover {
+    opacity: 0.8;
+}
+
+.mood-rating input[type="radio"]:checked + label {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+.mood-form .form-group {
+    margin-bottom: 1.5rem;
+}
+
+.mood-form textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    resize: vertical;
+}
+
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+.alert-success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+.alert-error {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
 }
