@@ -728,3 +728,83 @@ body.auth-page.theme-dark .alert-success {
     background-color: #f8d7da;
     border-color: #f5c6cb;
 }
+
+/* ========================================
+   Hydration & Activity
+   ======================================== */
+
+.icon-selection {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin: 15px 0;
+}
+
+.icon-selection label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    padding: 10px;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    opacity: 0.6;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.icon-selection label span.emoji {
+    font-size: 2.5rem;
+    margin-bottom: 5px;
+}
+
+.icon-selection label span.label-text {
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.icon-selection label:hover {
+    opacity: 1;
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-3px);
+}
+
+.icon-selection input[type="checkbox"]{
+    display: none;
+}
+
+.icon-selection input[type="checkbox"]:checked ~ label {
+    opacity: 1;
+    border-color: #2196F3;
+    background-color: rgba(33, 150, 243, 0.1);
+    transform: scale(1.1);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.water-tracker {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    margin: 20px 0;
+    cursor: pointer;
+}
+
+.water-glass {
+    font-size: 2.5rem;
+    transition: all 0.2s ease;
+    opacity: 0.3;
+    filter: grayscale(100%);
+}
+
+.water-glass.filled {
+    opacity: 1;
+    filter: grayscale(0%);
+    transform: scale(1.1);
+}
+
+.water-glass.hovered {
+    opacity: 0.8;
+    filter: grayscale(20%);
+    transform: scale(1.05);
+}

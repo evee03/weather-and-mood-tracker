@@ -108,6 +108,71 @@
             <button type="submit" class="btn" th:text="#{mood.form.submit}">Save mood</button>
         </form>
 
+        <h3 th:text="#{hydration.form.title}">Nawodnienie</h3>
+
+        <div th:if="${hydrationSuccess}" class="alert alert-success" th:text="${hydrationSuccess}"></div>
+        <div th:if="${hydrationError}" class="alert alert-error" th:text="${hydrationError}"></div>
+
+        <form th:action="@{/dashboard/hydration}" th:object="${hydrationEntry}" method="post">
+
+            <p style="text-align: center;">Zaznacz ilość wody:</p>
+
+            <h2 id="waterDisplay" style="text-align: center; color: #2196F3; margin: 5px 0;">0 ml</h2>
+
+            <div class="water-tracker">
+                <span class="water-glass">🥛</span>
+                <span class="water-glass">🥛</span>
+                <span class="water-glass">🥛</span>
+                <span class="water-glass">🥛</span>
+                <span class="water-glass">🥛</span>
+                <span class="water-glass">🥛</span>
+                <span class="water-glass">🥛</span>
+                <span class="water-glass">🥛</span>
+                <span class="water-glass">🥛</span>
+                <span class="water-glass">🥛</span>
+            </div>
+
+            <input type="hidden" id="waterAmountInput" th:field="*{amountMl}" required>
+
+            <button type="submit" class="btn" th:text="#{hydration.btn}">Dodaj wodę</button>
+        </form>
+
+        <h3 th:text="#{activity.form.title}">Aktywność</h3>
+
+        <div th:if="${activitySuccess}" class="alert alert-success" th:text="${activitySuccess}"></div>
+        <div th:if="${activityError}" class="alert alert-error" th:text="${activityError}"></div>
+
+        <form th:action="@{/dashboard/activity}" th:object="${activityEntry}" method="post">
+
+            <p style="text-align: center; margin-bottom: 10px;">Co dziś robiłeś?</p>
+
+            <div class="icon-selection">
+                <div th:each="type : ${T(pl.pollub.weather_mood_tracker.model.enums.ActivityType).values()}">
+
+                    <input type="checkbox"
+                           th:field="*{activityTypes}"
+                           th:value="${type}"
+                           th:id="${'activity-' + type.name()}">
+
+                    <label th:for="${'activity-' + type.name()}">
+                    <span class="emoji" th:switch="${type.name()}">
+                        <span th:case="'WALKING'">🚶</span>
+                        <span th:case="'RUNNING'">🏃</span>
+                        <span th:case="'CYCLING'">🚴</span>
+                        <span th:case="'SWIMMING'">🏊</span>
+                        <span th:case="'GYM'">🏋️</span>
+                        <span th:case="'YOGA'">🧘</span>
+                        <span th:case="'BALLGAME'">⚽</span>
+                        <span th:case="'OTHER'">🤸</span>
+                    </span>
+                        <span class="label-text" th:text="${type.name()}">Activity</span>
+                    </label>
+                </div>
+            </div>
+
+            <button type="submit" class="btn" th:text="#{activity.btn}">Zapisz aktywność</button>
+        </form>
+
         <h3 th:text="#{page.dashboard.location}">Your location</h3>
         <div id="map" style="height: 300px; width: 100%; border-radius: 8px;"
              th:attr="data-city=${#strings.isEmpty(user.city) ? 'Warszawa' : user.city},
@@ -120,5 +185,6 @@
 </div>
 <script th:src="@{/js/theme-manager.js}"></script>
 <script th:src="@{/js/location-manager.js}"></script>
+<script th:src="@{/js/water-tracker.js}"></script>
 </body>
 </html>
