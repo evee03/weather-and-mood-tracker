@@ -75,6 +75,26 @@
             </p>
         </div>
 
+        <div class="calendar-wrapper">
+            <div id="calendar">
+                <div class="calendar-header">
+                    <button id="prevMonth">&lt;</button>
+                    <h2 id="monthLabel"></h2>
+                    <button id="nextMonth">&gt;</button>
+                    <button id="todayBtn">Dzisiaj</button>
+                </div>
+                <div class="calendar-grid" id="calendarGrid"></div>
+            </div>
+
+            <div id="dayModal">
+                <div id="dayModalContent">
+                    <span id="closeModal">&times;</span>
+                    <h3>Wybrany dzień:</h3>
+                    <p id="selectedDate"></p>
+                </div>
+            </div>
+        </div>
+
         <h3 th:text="#{mood.form.heading}">How are you feeling today?</h3>
 
         <div th:if="${moodSuccess}" class="alert alert-success" th:text="${moodSuccess}"></div>
@@ -120,5 +140,6 @@
 </div>
 <script th:src="@{/js/theme-manager.js}"></script>
 <script th:src="@{/js/location-manager.js}"></script>
+<script th:src="@{/js/calendar-wrapper.js}"></script>
 </body>
 </html>

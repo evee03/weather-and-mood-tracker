@@ -728,3 +728,85 @@ body.auth-page.theme-dark .alert-success {
     background-color: #f8d7da;
     border-color: #f5c6cb;
 }
+
+/* ========================================
+   CALENDAR-WRAPPER
+   ======================================== */
+#calendar {
+    width: 60%;
+    margin: 20px auto;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.calendar-header button{
+    width: 50px;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+}
+
+.day-name {
+    font-weight: bold;
+    text-align: center;
+    padding: 5px 0;
+}
+
+.day {
+    height: 50px;
+    background: #f3f3f3;
+    border-radius: 4px;
+    text-align: center;
+    line-height: 50px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.day:hover {
+    background: #dcdcdc;
+}
+
+.today {
+    background: #33ccff;
+    border: 2px solid #0099ff;
+    color: #000;
+    font-weight: bold;
+}
+.today:hover{
+    background: #0099ff;
+}
+
+#dayModal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+#dayModalContent {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    min-width: 250px;
+    position: relative;
+}
+
+#closeModal {
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-weight: bold;
+    font-size: 18px;
+}
