@@ -11,11 +11,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.pollub.weather_mood_tracker.config.Language;
-import pl.pollub.weather_mood_tracker.dto.UserLoginDto;
-import pl.pollub.weather_mood_tracker.dto.UserRegistrationDto;
+import pl.pollub.weather_mood_tracker.dto.*;
 import pl.pollub.weather_mood_tracker.model.User;
 import pl.pollub.weather_mood_tracker.service.UserService;
-import pl.pollub.weather_mood_tracker.dto.MoodEntryDto;
 
 import java.util.Locale;
 import java.util.Map;
@@ -111,6 +109,14 @@ public class AuthController {
 
         if (!model.containsAttribute("moodEntry")) {
             model.addAttribute("moodEntry", new MoodEntryDto());
+        }
+
+        if (!model.containsAttribute("hydrationEntry")) {
+            model.addAttribute("hydrationEntry", new HydrationEntryDto());
+        }
+
+        if (!model.containsAttribute("activityEntry")) {
+            model.addAttribute("activityEntry", new ActivityEntryDto());
         }
 
         Optional<User> userOpt = userService.findById(userId);

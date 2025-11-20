@@ -7,5 +7,6 @@ public enum ActivityType {
     SWIMMING,
     GYM,
     YOGA,
+    BALLGAME,
     OTHER,
 }
