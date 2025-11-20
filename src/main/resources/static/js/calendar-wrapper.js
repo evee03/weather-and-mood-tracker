@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-
     const calendarGrid = document.getElementById("calendarGrid");
     const monthLabel = document.getElementById("monthLabel");
 
@@ -8,13 +7,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const selectedDate = document.getElementById("selectedDate");
 
     let currentDate = new Date();
-
-    const dayNames = ["Pn", "Wt", "Śr", "Cz", "Pt", "So", "Nd"];
-    const monthNames = [
-        "Styczeń", "Luty", "Marzec", "Kwiecień",
-        "Maj", "Czerwiec", "Lipiec", "Sierpień",
-        "Wrzesień", "Październik", "Listopad", "Grudzień"
-    ];
 
     function renderCalendar() {
 
@@ -75,7 +67,6 @@ document.addEventListener("DOMContentLoaded", function () {
         currentDate = new Date();
         renderCalendar();
     };
-
 
     closeModal.onclick = () => modal.style.display = "none";
 

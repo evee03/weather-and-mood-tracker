@@ -76,20 +76,20 @@
         </div>
 
         <div class="calendar-wrapper">
-            <div id="calendar">
+            <div id="calendar" class="calendar-component">
                 <div class="calendar-header">
                     <button id="prevMonth">&lt;</button>
                     <h2 id="monthLabel"></h2>
                     <button id="nextMonth">&gt;</button>
-                    <button id="todayBtn">Dzisiaj</button>
+                    <button id="todayBtn" th:text="#{calendar.today}">Today</button>
                 </div>
                 <div class="calendar-grid" id="calendarGrid"></div>
             </div>
 
-            <div id="dayModal">
+            <div id="dayModal" class="calendar-modal">
                 <div id="dayModalContent">
                     <span id="closeModal">&times;</span>
-                    <h3>Wybrany dzień:</h3>
+                    <h3 th:text="#{calendar.selectedDay}">Selected day:</h3>
                     <p id="selectedDate"></p>
                 </div>
             </div>
@@ -140,6 +140,32 @@
 </div>
 <script th:src="@{/js/theme-manager.js}"></script>
 <script th:src="@{/js/location-manager.js}"></script>
+<script th:inline="javascript">
+    const dayNames = [
+        /*[[#{day.Monday}]]*/,
+        /*[[#{day.Tuesday}]]*/,
+        /*[[#{day.Wednesday}]]*/,
+        /*[[#{day.Thursday}]]*/,
+        /*[[#{day.Friday}]]*/,
+        /*[[#{day.Saturday}]]*/,
+        /*[[#{day.Sunday}]]*/
+    ];
+
+    const monthNames = [
+        /*[[#{month.January}]]*/,
+        /*[[#{month.February}]]*/,
+        /*[[#{month.March}]]*/,
+        /*[[#{month.April}]]*/,
+        /*[[#{month.May}]]*/,
+        /*[[#{month.June}]]*/,
+        /*[[#{month.July}]]*/,
+        /*[[#{month.August}]]*/,
+        /*[[#{month.September}]]*/,
+        /*[[#{month.October}]]*/,
+        /*[[#{month.November}]]*/,
+        /*[[#{month.December}]]*/
+    ];
+</script>
 <script th:src="@{/js/calendar-wrapper.js}"></script>
 </body>
 </html>
