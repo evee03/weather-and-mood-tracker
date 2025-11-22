@@ -808,3 +808,147 @@ body.auth-page.theme-dark .alert-success {
     filter: grayscale(20%);
     transform: scale(1.05);
 }
+
+/* ========================================
+   CALENDAR-WRAPPER
+   ======================================== */
+#calendar {
+    width: 60%;
+    margin: 20px auto;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.calendar-header button{
+    width: 50px;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+}
+
+.day-name {
+    font-weight: bold;
+    text-align: center;
+    padding: 5px 0;
+}
+
+.day {
+    height: 50px;
+    background: #f3f3f3;
+    border-radius: 4px;
+    text-align: center;
+    line-height: 50px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.day:hover {
+    background: #dcdcdc;
+}
+
+.today {
+    background: #33ccff;
+    border: 2px solid #0099ff;
+    color: #000;
+    font-weight: bold;
+}
+.today:hover{
+    background: #0099ff;
+}
+
+#dayModal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+#dayModalContent {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    min-width: 250px;
+    position: relative;
+}
+
+#closeModal {
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+/* ========================================
+   CALENDAR-WRAPPER (THEME-DARK)
+   ======================================== */
+body.theme-dark #calendar{
+    background: #1b1e23;
+    color: #e4e4e4;
+    border-radius: 8px;
+    padding: 15px;
+}
+
+body.theme-dark .calendar-header button {
+    background: #2a2d33;
+    color: #ffffff;
+    border: 1px solid #3c3f44;
+}
+
+body.theme-dark .calendar-header button:hover {
+    background: #3c3f44;
+}
+
+body.theme-dark #monthLabel {
+    color: #ffffff;
+}
+
+body.theme-dark .day-name {
+    color: #d3d3d3;
+}
+
+body.theme-dark .day {
+    background: #2a2d33;
+    color: #e4e4e4;
+    border: 1px solid #383b40;
+}
+
+body.theme-dark .day:hover {
+    background: #3a3d42;
+}
+
+body.theme-dark .today {
+    background: #0c2e38;
+    border: 2px solid #06202c;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+body.theme-dark .today:hover {
+    background: #06202c;
+}
+
+body.theme-dark #dayModal {
+    background: rgba(0, 0, 0, 0.7);
+}
+
+body.theme-dark #dayModalContent {
+    background: #2a2d33;
+    color: #ffffff;
+}
+
+body.theme-dark #closeModal {
+    color: #fff;
+}
