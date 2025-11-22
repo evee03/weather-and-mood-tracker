@@ -108,14 +108,12 @@
             <button type="submit" class="btn" th:text="#{mood.form.submit}">Save mood</button>
         </form>
 
-        <h3 th:text="#{hydration.form.title}">Nawodnienie</h3>
+        <h3 th:text="#{hydration.form.title}">Hydration</h3>
 
         <div th:if="${hydrationSuccess}" class="alert alert-success" th:text="${hydrationSuccess}"></div>
         <div th:if="${hydrationError}" class="alert alert-error" th:text="${hydrationError}"></div>
 
         <form th:action="@{/dashboard/hydration}" th:object="${hydrationEntry}" method="post">
-
-            <p style="text-align: center;">Zaznacz ilość wody:</p>
 
             <h2 id="waterDisplay" style="text-align: center; color: #2196F3; margin: 5px 0;">0 ml</h2>
 
@@ -134,17 +132,17 @@
 
             <input type="hidden" id="waterAmountInput" th:field="*{amountMl}" required>
 
-            <button type="submit" class="btn" th:text="#{hydration.btn}">Dodaj wodę</button>
+            <button type="submit" class="btn" th:text="#{hydration.btn}">Add water</button>
         </form>
 
-        <h3 th:text="#{activity.form.title}">Aktywność</h3>
+        <h3 th:text="#{activity.form.title}">Physical Activity</h3>
 
         <div th:if="${activitySuccess}" class="alert alert-success" th:text="${activitySuccess}"></div>
         <div th:if="${activityError}" class="alert alert-error" th:text="${activityError}"></div>
 
         <form th:action="@{/dashboard/activity}" th:object="${activityEntry}" method="post">
 
-            <p style="text-align: center; margin-bottom: 10px;">Co dziś robiłeś?</p>
+            <p style="text-align: center; margin-bottom: 10px;" th:text="#{activity.question}">What did you do today?</p>
 
             <div class="icon-selection">
                 <div th:each="type : ${T(pl.pollub.weather_mood_tracker.model.enums.ActivityType).values()}">
@@ -170,7 +168,7 @@
                 </div>
             </div>
 
-            <button type="submit" class="btn" th:text="#{activity.btn}">Zapisz aktywność</button>
+            <button type="submit" class="btn" th:text="#{activity.btn}">Save activity</button>
         </form>
 
         <h3 th:text="#{page.dashboard.location}">Your location</h3>
