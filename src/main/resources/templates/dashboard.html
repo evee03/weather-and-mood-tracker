@@ -87,109 +87,126 @@
             </div>
 
             <div id="dayModal" class="calendar-modal">
-                <div id="dayModalContent">
+                <div id="dayModalContent" class="modal-content-scrollable">
                     <span id="closeModal">&times;</span>
-                    <h3 th:text="#{calendar.selectedDay}">Selected day:</h3>
-                    <p id="selectedDate"></p>
+                    <h3 id="modalDateTitle">Date</h3>
+
+                    <div id="futureView" style="display: none; text-align: center; padding: 20px;">
+                        <p th:text="#{modal.future}">This day hasn't arrived yet. Come back later to save the mood!</p>
+                    </div>
+
+                    <div id="readOnlyView" style="display: none;" th:attr="nodata=#{modal.nodata}">
+                        <h4 th:text="#{modal.summary}">Summary of the day:</h4>
+                        <div class="readonly-section">
+                            <strong th:text="#{modal.mood}">Mood:</strong> <span id="roMood" th:text="#{modal.nodata}">No data</span> <span id="roMoodEmoji"></span>
+                            <p id="roComment" style="font-style: italic; color: #888;"></p>
+                        </div>
+                        <div class="readonly-section">
+                            <strong th:text="#{modal.weather}">Weather:</strong> <span id="roWeather" th:text="#{modal.nodata}">No data</span>
+                        </div>
+                        <div class="readonly-section">
+                            <strong th:text="#{modal.water}">Water:</strong> <span id="roWater">0</span> ml 💧
+                        </div>
+                        <div class="readonly-section">
+                            <strong th:text="#{modal.activity}">Activity:</strong> <span id="roActivity" th:text="#{modal.nodata}">No data</span>
+                        </div>
+                    </div>
+
+                    <div id="editView" style="display: none;">
+
+                        <h4 th:text="#{mood.form.heading}" style="text-align: center; margin-bottom: 20px;">Mood</h4>
+
+                        <div id="moodAlert" class="alert" style="display: none;"></div>
+
+                        <form id="moodForm" th:action="@{/dashboard/mood}" th:object="${moodEntry}" method="post" class="mood-form">
+                            <div class="form-group">
+                                <div class="mood-rating-container">
+                                    <div class="mood-option">
+                                        <input type="radio" id="mood1" th:field="*{moodLevel}" value="1" required>
+                                        <label for="mood1">
+                                            <span class="emoji">😞</span>
+                                        </label>
+                                    </div>
+
+                                    <div class="mood-option">
+                                        <input type="radio" id="mood2" th:field="*{moodLevel}" value="2">
+                                        <label for="mood2">
+                                            <span class="emoji">😕</span>
+                                        </label>
+                                    </div>
+
+                                    <div class="mood-option">
+                                        <input type="radio" id="mood3" th:field="*{moodLevel}" value="3">
+                                        <label for="mood3">
+                                            <span class="emoji">😐</span>
+                                        </label>
+                                    </div>
+
+                                    <div class="mood-option">
+                                        <input type="radio" id="mood4" th:field="*{moodLevel}" value="4">
+                                        <label for="mood4">
+                                            <span class="emoji">🙂</span>
+                                        </label>
+                                    </div>
+
+                                    <div class="mood-option">
+                                        <input type="radio" id="mood5" th:field="*{moodLevel}" value="5">
+                                        <label for="mood5">
+                                            <span class="emoji">😄</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <label for="comment" th:text="#{mood.form.comment.label}" style="display: block; margin-top: 20px; margin-bottom: 5px; font-weight: bold;">Note (optional):</label>
+                            <textarea id="comment" th:field="*{comment}" rows="3" th:placeholder="#{mood.form.comment.placeholder}" style="width: 100%; margin-top: 15px;"></textarea>
+                            <button type="submit" class="btn btn-sm" th:text="#{mood.form.submit}">Save</button>
+                        </form>
+
+                        <div class="section-divider"></div>
+
+                        <h4 th:text="#{hydration.form.title}" style="text-align: center; margin-bottom: 20px;">Hydration</h4>
+
+                        <div id="hydrationAlert" class="alert" style="display: none;"></div>
+
+                        <form id="hydrationForm" th:action="@{/dashboard/hydration}" th:object="${hydrationEntry}" method="post">
+                            <h2 id="waterDisplay" style="text-align: center; color: #2196F3; margin: 5px 0;">0 ml</h2>
+                            <div class="water-tracker">
+                                <span class="water-glass" th:each="i : ${#numbers.sequence(1, 10)}">🥛</span>
+                            </div>
+                            <input type="hidden" id="waterAmountInput" th:field="*{amountMl}" required>
+                            <button type="submit" class="btn btn-sm" th:text="#{hydration.btn}">Add</button>
+                        </form>
+
+                        <div class="section-divider"></div>
+
+                        <h4 th:text="#{activity.form.title}" style="text-align: center; margin-bottom: 20px;">Activity</h4>
+
+                        <div id="activityAlert" class="alert" style="display: none;"></div>
+
+                        <form id="activityForm" th:action="@{/dashboard/activity}" th:object="${activityEntry}" method="post">
+                            <div class="icon-selection small-icons">
+                                <div th:each="type : ${T(pl.pollub.weather_mood_tracker.model.enums.ActivityType).values()}">
+                                    <input type="checkbox" th:field="*{activityTypes}" th:value="${type}" th:id="${'activity-' + type.name()}">
+                                    <label th:for="${'activity-' + type.name()}">
+                                        <span class="emoji" th:switch="${type.name()}">
+                                            <span th:case="'WALKING'">🚶</span>
+                                            <span th:case="'RUNNING'">🏃</span>
+                                            <span th:case="'CYCLING'">🚴</span>
+                                            <span th:case="'SWIMMING'">🏊</span>
+                                            <span th:case="'GYM'">🏋️</span>
+                                            <span th:case="'YOGA'">🧘</span>
+                                            <span th:case="'BALLGAME'">⚽</span>
+                                            <span th:case="'OTHER'">🤸</span>
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-sm" th:text="#{activity.btn}">Save</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-
-        <h3 th:text="#{mood.form.heading}">How are you feeling today?</h3>
-
-        <div th:if="${moodSuccess}" class="alert alert-success" th:text="${moodSuccess}"></div>
-        <div th:if="${moodError}" class="alert alert-error" th:text="${moodError}"></div>
-
-        <form th:action="@{/dashboard/mood}" th:object="${moodEntry}" method="post" class="mood-form">
-
-            <div class="form-group">
-                <label th:text="#{mood.form.level.label}">Your mood:</label>
-                <div class="mood-rating">
-                    <input type="radio" id="mood1" th:field="*{moodLevel}" value="1" required>
-                    <label for="mood1">😞</label>
-                    <input type="radio" id="mood2" th:field="*{moodLevel}" value="2" required>
-                    <label for="mood2">😕</label>
-                    <input type="radio" id="mood3" th:field="*{moodLevel}" value="3" required>
-                    <label for="mood3">😐</label>
-                    <input type="radio" id="mood4" th:field="*{moodLevel}" value="4" required>
-                    <label for="mood4">🙂</label>
-                    <input type="radio" id="mood5" th:field="*{moodLevel}" value="5" required>
-                    <label for="mood5">😄</label>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="comment" th:text="#{mood.form.comment.label}">Note (optional):</label>
-                <textarea id="comment" th:field="*{comment}"
-                          rows="3"
-                          th:placeholder="#{mood.form.comment.placeholder}"></textarea>
-            </div>
-
-            <button type="submit" class="btn" th:text="#{mood.form.submit}">Save mood</button>
-        </form>
-
-        <h3 th:text="#{hydration.form.title}">Hydration</h3>
-
-        <div th:if="${hydrationSuccess}" class="alert alert-success" th:text="${hydrationSuccess}"></div>
-        <div th:if="${hydrationError}" class="alert alert-error" th:text="${hydrationError}"></div>
-
-        <form th:action="@{/dashboard/hydration}" th:object="${hydrationEntry}" method="post">
-
-            <h2 id="waterDisplay" style="text-align: center; color: #2196F3; margin: 5px 0;">0 ml</h2>
-
-            <div class="water-tracker">
-                <span class="water-glass">🥛</span>
-                <span class="water-glass">🥛</span>
-                <span class="water-glass">🥛</span>
-                <span class="water-glass">🥛</span>
-                <span class="water-glass">🥛</span>
-                <span class="water-glass">🥛</span>
-                <span class="water-glass">🥛</span>
-                <span class="water-glass">🥛</span>
-                <span class="water-glass">🥛</span>
-                <span class="water-glass">🥛</span>
-            </div>
-
-            <input type="hidden" id="waterAmountInput" th:field="*{amountMl}" required>
-
-            <button type="submit" class="btn" th:text="#{hydration.btn}">Add water</button>
-        </form>
-
-        <h3 th:text="#{activity.form.title}">Physical Activity</h3>
-
-        <div th:if="${activitySuccess}" class="alert alert-success" th:text="${activitySuccess}"></div>
-        <div th:if="${activityError}" class="alert alert-error" th:text="${activityError}"></div>
-
-        <form th:action="@{/dashboard/activity}" th:object="${activityEntry}" method="post">
-
-            <p style="text-align: center; margin-bottom: 10px;" th:text="#{activity.question}">What did you do today?</p>
-
-            <div class="icon-selection">
-                <div th:each="type : ${T(pl.pollub.weather_mood_tracker.model.enums.ActivityType).values()}">
-
-                    <input type="checkbox"
-                           th:field="*{activityTypes}"
-                           th:value="${type}"
-                           th:id="${'activity-' + type.name()}">
-
-                    <label th:for="${'activity-' + type.name()}">
-                    <span class="emoji" th:switch="${type.name()}">
-                        <span th:case="'WALKING'">🚶</span>
-                        <span th:case="'RUNNING'">🏃</span>
-                        <span th:case="'CYCLING'">🚴</span>
-                        <span th:case="'SWIMMING'">🏊</span>
-                        <span th:case="'GYM'">🏋️</span>
-                        <span th:case="'YOGA'">🧘</span>
-                        <span th:case="'BALLGAME'">⚽</span>
-                        <span th:case="'OTHER'">🤸</span>
-                    </span>
-                        <span class="label-text" th:text="${type.name()}">Activity</span>
-                    </label>
-                </div>
-            </div>
-
-            <button type="submit" class="btn" th:text="#{activity.btn}">Save activity</button>
-        </form>
 
         <h3 th:text="#{page.dashboard.location}">Your location</h3>
         <div id="map" style="height: 300px; width: 100%; border-radius: 8px;"
@@ -231,5 +248,6 @@
 </script>
 <script th:src="@{/js/calendar-wrapper.js}"></script>
 <script th:src="@{/js/water-tracker.js}"></script>
+<script th:src="@{/js/ajax-forms.js}"></script>
 </body>
 </html>

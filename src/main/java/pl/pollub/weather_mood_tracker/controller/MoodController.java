@@ -11,6 +11,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.pollub.weather_mood_tracker.config.Language;
 import pl.pollub.weather_mood_tracker.dto.MoodEntryDto;
 import pl.pollub.weather_mood_tracker.service.MoodService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ResponseBody;
+import java.util.Map;
 
 import java.util.Locale;
 
@@ -21,32 +24,30 @@ public class MoodController {
     private final MoodService moodService;
 
     @PostMapping("/dashboard/mood")
-    public String saveMood(@Valid @ModelAttribute("moodEntry") MoodEntryDto moodEntryDto,
-                           BindingResult bindingResult,
-                           HttpSession session,
-                           RedirectAttributes redirectAttributes,
-                           Locale locale) {
+    @ResponseBody
+    public ResponseEntity<?> saveMood(@Valid @ModelAttribute("moodEntry") MoodEntryDto moodEntryDto,
+                                      BindingResult bindingResult,
+                                      HttpSession session,
+                                      Locale locale) {
 
         Long userId = (Long) session.getAttribute("userId");
         if (userId == null) {
-            return "redirect:/login";
-        }
-
-        if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("moodError", "Validation error.");
-            return "redirect:/dashboard";
+            return ResponseEntity.status(401).body(Map.of("error", "Unauthorized"));
         }
 
         Language language = new Language(locale);
-        try {
-            moodService.saveMood(moodEntryDto, userId, locale);
-            redirectAttributes.addFlashAttribute("moodSuccess",
-                    language.getMessage("mood.save.success"));
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("moodError",
-                    language.getMessage("mood.save.error", e.getMessage()));
+
+        if (bindingResult.hasErrors()) {
+            return ResponseEntity.badRequest()
+                    .body(Map.of("error", language.getMessage("tracker.error")));
         }
 
-        return "redirect:/dashboard";
+        try {
+            moodService.saveMood(moodEntryDto, userId, locale);
+            return ResponseEntity.ok(Map.of("message", language.getMessage("mood.save.success")));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest()
+                    .body(Map.of("error", e.getMessage()));
+        }
     }
 }

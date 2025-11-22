@@ -679,11 +679,16 @@ body.auth-page.theme-dark .alert-success {
    MOOD FORM
    ======================================== */
 
-.mood-rating input[type="radio"] {
+.mood-option {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.mood-option input[type="radio"] {
     display: none;
 }
 
-.mood-rating label {
+.mood-option label {
     font-size: 2.5rem;
     cursor: pointer;
     padding: 0 0.25em;
@@ -691,17 +696,15 @@ body.auth-page.theme-dark .alert-success {
     transition: opacity 0.2s;
 }
 
-.mood-rating label:hover {
+.mood-option label:hover {
     opacity: 0.8;
-}
-
-.mood-rating input[type="radio"]:checked + label {
-    opacity: 1;
     transform: scale(1.1);
 }
 
-.mood-form .form-group {
-    margin-bottom: 1.5rem;
+.mood-option input[type="radio"]:checked ~ label {
+    opacity: 1;
+    transform: scale(1.25);
+    text-shadow: 0 0 10px rgba(0,0,0,0.2);
 }
 
 .mood-form textarea {
@@ -782,6 +785,18 @@ body.auth-page.theme-dark .alert-success {
     box-shadow: 0 4px 15px rgba(0,0,0,0.2);
 }
 
+.small-icons .icon-selection {
+    gap: 10px;
+}
+
+.small-icons label {
+    padding: 5px;
+}
+
+.small-icons .emoji {
+    font-size: 1.8rem;
+}
+
 .water-tracker {
     display: flex;
     justify-content: center;
@@ -824,8 +839,10 @@ body.auth-page.theme-dark .alert-success {
     margin-bottom: 10px;
 }
 
-.calendar-header button{
-    width: 50px;
+.calendar-header button {
+    width: auto;
+    padding: 5px 15px;
+    cursor: pointer;
 }
 
 .calendar-grid {
@@ -864,22 +881,40 @@ body.auth-page.theme-dark .alert-success {
     background: #0099ff;
 }
 
-#dayModal {
+/* ========================================
+   CALENDAR MODAL
+   ======================================== */
+
+.calendar-modal {
     display: none;
     position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.5);
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.6);
+    backdrop-filter: blur(5px);
 }
 
 #dayModalContent {
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    min-width: 250px;
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 30px;
+    border: 1px solid #888;
+    width: 90%;
+    max-width: 800px;
+    border-radius: 12px;
     position: relative;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.section-divider {
+    margin: 40px 0;
+    border: 0;
+    border-top: 1px solid #eee;
 }
 
 #closeModal {
@@ -889,6 +924,25 @@ body.auth-page.theme-dark .alert-success {
     right: 10px;
     font-weight: bold;
     font-size: 18px;
+}
+
+#closeModal:hover {
+    color: black;
+}
+
+.btn-sm {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.readonly-section {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    border-left: 4px solid #2196F3;
 }
 
 /* ========================================
@@ -951,4 +1005,20 @@ body.theme-dark #dayModalContent {
 
 body.theme-dark #closeModal {
     color: #fff;
+}
+
+body.theme-dark .readonly-section {
+    background: #3a3d42;
+}
+
+body.theme-dark .btn-sm {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+body.theme-dark .btn-sm:hover {
+    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+}
+
+body.theme-dark #comment {
+    background: #3a3d42;
 }

@@ -14,6 +14,9 @@ import pl.pollub.weather_mood_tracker.dto.ActivityEntryDto;
 import pl.pollub.weather_mood_tracker.dto.HydrationEntryDto;
 import pl.pollub.weather_mood_tracker.service.HydrationService;
 import pl.pollub.weather_mood_tracker.service.PhysicalActivityService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ResponseBody;
+import java.util.Map;
 
 import java.util.Locale;
 
@@ -26,50 +29,48 @@ public class TrackerController {
     private final PhysicalActivityService activityService;
 
     @PostMapping("/hydration")
-    public String addHydration(@Valid @ModelAttribute("hydrationEntry") HydrationEntryDto dto,
-                               BindingResult result,
-                               HttpSession session,
-                               RedirectAttributes redirectAttributes,
-                               Locale locale) {
+    @ResponseBody
+    public ResponseEntity<?> addHydration(@Valid @ModelAttribute("hydrationEntry") HydrationEntryDto dto,
+                                          BindingResult result,
+                                          HttpSession session,
+                                          Locale locale) {
         Long userId = (Long) session.getAttribute("userId");
-        if (userId == null) return "redirect:/login";
+        if (userId == null) return ResponseEntity.status(401).build();
+
         Language lang = new Language(locale);
 
         if (result.hasErrors()) {
-            redirectAttributes.addFlashAttribute("hydrationError", lang.getMessage("tracker.error"));
-            return "redirect:/dashboard";
+            return ResponseEntity.badRequest().body(Map.of("error", lang.getMessage("tracker.error")));
         }
 
         try {
             hydrationService.addHydration(userId, dto);
-            redirectAttributes.addFlashAttribute("hydrationSuccess", lang.getMessage("tracker.hydration.saved"));
+            return ResponseEntity.ok(Map.of("message", lang.getMessage("tracker.hydration.saved")));
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("hydrationError", e.getMessage());
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         }
-        return "redirect:/dashboard";
     }
 
     @PostMapping("/activity")
-    public String addActivity(@Valid @ModelAttribute("activityEntry") ActivityEntryDto dto,
-                              BindingResult result,
-                              HttpSession session,
-                              RedirectAttributes redirectAttributes,
-                              Locale locale) {
+    @ResponseBody
+    public ResponseEntity<?> addActivity(@Valid @ModelAttribute("activityEntry") ActivityEntryDto dto,
+                                         BindingResult result,
+                                         HttpSession session,
+                                         Locale locale) {
         Long userId = (Long) session.getAttribute("userId");
-        if (userId == null) return "redirect:/login";
+        if (userId == null) return ResponseEntity.status(401).build();
+
         Language lang = new Language(locale);
 
         if (result.hasErrors()) {
-            redirectAttributes.addFlashAttribute("activityError", lang.getMessage("tracker.error"));
-            return "redirect:/dashboard";
+            return ResponseEntity.badRequest().body(Map.of("error", lang.getMessage("tracker.error")));
         }
 
         try {
             activityService.addActivity(userId, dto);
-            redirectAttributes.addFlashAttribute("activitySuccess", lang.getMessage("tracker.activity.saved"));
+            return ResponseEntity.ok(Map.of("message", lang.getMessage("tracker.activity.saved")));
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("activityError", e.getMessage());
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         }
-        return "redirect:/dashboard";
     }
 }

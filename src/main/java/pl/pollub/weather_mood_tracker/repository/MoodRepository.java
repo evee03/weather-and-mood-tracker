@@ -6,8 +6,10 @@ import pl.pollub.weather_mood_tracker.model.Mood;
 import pl.pollub.weather_mood_tracker.model.User;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Repository
 public interface MoodRepository extends JpaRepository<Mood, Long> {
     boolean existsByUserAndDate(User user, LocalDate date);
+    Optional<Mood> findByUserAndDate(User user, LocalDate date);
 }
