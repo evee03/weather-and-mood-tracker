@@ -66,8 +66,20 @@
                 <span th:text="${user.email}"></span>
             </p>
             <p th:if="${user.city}">
-                <strong th:text="#{page.dashboard.city}">City:</strong>
-                <span th:text="${user.city}"></span>
+                <p>
+                    <strong th:text="#{page.dashboard.city}">City:</strong>
+
+                    <span id="cityDisplay">
+                        <span th:text="${user.city}"></span>
+                        <button onclick="toggleCityEdit()" class="btn btn-sm" style="cursor:pointer; font-size:0.8rem; width:auto; padding: 3px 5px;" th:text="#{page.dashboard.location.edit}">Edit</button>
+                    </span>
+
+                    <span id="cityEdit" style="display:none;">
+                        <input type="text" id="newCityInput" th:value="${user.city}" style="padding: 2px; width: 120px;">
+                        <button onclick="saveCity()" class="btn btn-sm" style="width: auto; padding: 2px 8px;">OK</button>
+                        <button onclick="toggleCityEdit()" class="btn btn-sm" style="background:indianred; cursor:pointer; width:auto; padding: 3px 5px;" th:text="#{page.dashboard.location.cancel}">Cancel</button>
+                    </span>
+                </p>
             </p>
             <p>
                 <strong th:text="#{page.dashboard.member.since}">Member since:</strong>

@@ -1022,3 +1022,13 @@ body.theme-dark .btn-sm:hover {
 body.theme-dark #comment {
     background: #3a3d42;
 }
+
+body.theme-dark .leaflet-tile-pane {
+    filter: invert(100%) hue-rotate(180deg) brightness(95%) contrast(90%);
+}
+
+body.theme-dark .leaflet-popup-content-wrapper,
+body.theme-dark .leaflet-popup-tip {
+    background-color: #2a2d33;
+    color: #e4e4e4;
+}

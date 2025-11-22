@@ -138,6 +138,22 @@ public class AuthController {
         return "redirect:/login";
     }
 
+    @PostMapping("/api/settings/city")
+    @ResponseBody
+    public ResponseEntity<?> updateCity(@RequestBody Map<String, String> request, HttpSession session) {
+        Long userId = (Long) session.getAttribute("userId");
+        if (userId == null) return ResponseEntity.status(401).build();
+
+        String newCity = request.get("city");
+        boolean updated = userService.updateUserCity(userId, newCity);
+
+        if (updated) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.badRequest().body(Map.of("error", "Invalid city name"));
+        }
+    }
+
     @PostMapping("/api/settings/theme")
     @ResponseBody
     public ResponseEntity<?> updateTheme(@RequestBody Map<String, String> request, HttpSession session) {
