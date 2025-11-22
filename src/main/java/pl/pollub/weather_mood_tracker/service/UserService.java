@@ -11,6 +11,7 @@ import pl.pollub.weather_mood_tracker.model.Settings;
 import pl.pollub.weather_mood_tracker.model.User;
 import pl.pollub.weather_mood_tracker.model.enums.Theme;
 import pl.pollub.weather_mood_tracker.repository.UserRepository;
+import pl.pollub.weather_mood_tracker.service.WeatherService;
 
 import java.util.Locale;
 import java.util.Optional;
@@ -21,6 +22,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final WeatherService weatherService;
 
     @Transactional
     public User registerUser(UserRegistrationDto registrationDto) throws Exception {
@@ -47,7 +49,17 @@ public class UserService {
         user.setUsername(registrationDto.getUsername());
         user.setEmail(registrationDto.getEmail());
         user.setPassword(passwordEncoder.encode(registrationDto.getPassword()));
-        user.setCity(registrationDto.getCity());
+
+        String cityInput = registrationDto.getCity();
+        if (cityInput != null && !cityInput.trim().isEmpty()) {
+            if (weatherService.isCityValid(cityInput)) {
+                user.setCity(cityInput);
+            } else {
+                user.setCity("Warszawa");
+            }
+        } else {
+            user.setCity("Warszawa");
+        }
 
         Settings settings = Settings.builder()
                 .user(user)
@@ -133,5 +145,19 @@ public class UserService {
 
             userRepository.save(user);
         }
+    }
+
+    @Transactional
+    public boolean updateUserCity(Long userId, String newCity) {
+        Optional<User> userOpt = findById(userId);
+        if (userOpt.isPresent()) {
+            User user = userOpt.get();
+            if (weatherService.isCityValid(newCity)) {
+                user.setCity(newCity);
+                userRepository.save(user);
+                return true;
+            }
+        }
+        return false;
     }
 }

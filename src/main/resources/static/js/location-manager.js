@@ -40,3 +40,39 @@ document.addEventListener('DOMContentLoaded', function() {
             mapElement.innerHTML = labelErrorLoading;
         });
 });
+
+function toggleCityEdit() {
+    const display = document.getElementById('cityDisplay');
+    const edit = document.getElementById('cityEdit');
+
+    if (display.style.display === 'none') {
+        display.style.display = 'inline';
+        edit.style.display = 'none';
+    } else {
+        display.style.display = 'none';
+        edit.style.display = 'inline';
+    }
+}
+
+function saveCity() {
+    const newCity = document.getElementById('newCityInput').value;
+
+    fetch('/api/settings/city', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ city: newCity })
+    })
+        .then(response => {
+            if (response.ok) {
+                location.reload();
+            } else {
+                alert("Nie znaleziono takiego miasta!");
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert("Wystąpił błąd.");
+        });
+}

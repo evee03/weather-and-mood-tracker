@@ -86,6 +86,23 @@ public class WeatherService {
         }
     }
 
+    public boolean isCityValid(String city) {
+        if (city == null || city.trim().isEmpty()) return false;
+        try {
+            webClient.get()
+                    .uri(apiUrl, uriBuilder -> uriBuilder
+                            .queryParam("q", city)
+                            .queryParam("appid", apiKey)
+                            .build())
+                    .retrieve()
+                    .toBodilessEntity()
+                    .block();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     private WeatherType mapWeatherType(String apiWeather) {
         return switch (apiWeather.toLowerCase()) {
             case "rain" -> WeatherType.RAINY;

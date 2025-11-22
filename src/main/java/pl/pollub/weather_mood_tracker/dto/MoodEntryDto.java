@@ -12,6 +12,5 @@ public class MoodEntryDto {
     @Min(value = 1, message = "Mood level must be at least 1")
     @Max(value = 5, message = "Mood level must be at most 5")
     private Integer moodLevel;
-
     private String comment;
 }

@@ -11,11 +11,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.pollub.weather_mood_tracker.config.Language;
-import pl.pollub.weather_mood_tracker.dto.UserLoginDto;
-import pl.pollub.weather_mood_tracker.dto.UserRegistrationDto;
+import pl.pollub.weather_mood_tracker.dto.*;
 import pl.pollub.weather_mood_tracker.model.User;
 import pl.pollub.weather_mood_tracker.service.UserService;
-import pl.pollub.weather_mood_tracker.dto.MoodEntryDto;
 
 import java.util.Locale;
 import java.util.Map;
@@ -113,6 +111,14 @@ public class AuthController {
             model.addAttribute("moodEntry", new MoodEntryDto());
         }
 
+        if (!model.containsAttribute("hydrationEntry")) {
+            model.addAttribute("hydrationEntry", new HydrationEntryDto());
+        }
+
+        if (!model.containsAttribute("activityEntry")) {
+            model.addAttribute("activityEntry", new ActivityEntryDto());
+        }
+
         Optional<User> userOpt = userService.findById(userId);
         if (userOpt.isPresent()) {
             User user = userOpt.get();
@@ -130,6 +136,22 @@ public class AuthController {
         }
 
         return "redirect:/login";
+    }
+
+    @PostMapping("/api/settings/city")
+    @ResponseBody
+    public ResponseEntity<?> updateCity(@RequestBody Map<String, String> request, HttpSession session) {
+        Long userId = (Long) session.getAttribute("userId");
+        if (userId == null) return ResponseEntity.status(401).build();
+
+        String newCity = request.get("city");
+        boolean updated = userService.updateUserCity(userId, newCity);
+
+        if (updated) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.badRequest().body(Map.of("error", "Invalid city name"));
+        }
     }
 
     @PostMapping("/api/settings/theme")
