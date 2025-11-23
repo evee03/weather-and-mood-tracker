@@ -1,39 +1,5 @@
 /* ========================================
-   RESET I PODSTAWOWE STYLE
-   ======================================== */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-/* ========================================
-   TŁO DLA STRON LOGOWANIA I REJESTRACJI
-   ======================================== */
-
-body.auth-page {
-    background: #7d96dc;
-    min-height: 100vh;
-    display: block;
-    position: relative;
-    overflow-x: hidden;
-    overflow-y: auto;
-    padding: 60px 20px;
-}
-
-/* ========================================
-   TŁO DLA DASHBOARD
-   ======================================== */
-body.dashboard-page {
-    background: #f5f7fa;
-}
-
-/* ========================================
-   ANIMOWANE CZĄSTECZKI
+   ANIMOWANE TŁO (PARTICLES)
    ======================================== */
 .particles {
     position: absolute;
@@ -42,7 +8,8 @@ body.dashboard-page {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    z-index: 0;
+    z-index: -1;
+    pointer-events: none;
 }
 
 .particles span {
@@ -55,980 +22,153 @@ body.dashboard-page {
     background-position: center;
     bottom: -150px;
     animation: animate 12s linear infinite;
+    opacity: 0.6;
 }
 
-.particles span:nth-child(1) {
-    left: 10%;
-    width: 80px;
-    height: 80px;
-    background-image: url('../images/cry.svg');
-    animation-delay: 0s;
-}
-
-.particles span:nth-child(2) {
-    left: 20%;
-    width: 40px;
-    height: 40px;
-    background-image: url('../images/angry.svg');
-    animation-delay: 2s;
-    animation-duration: 17s;
-}
-
-.particles span:nth-child(3) {
-    left: 35%;
-    width: 60px;
-    height: 60px;
-    background-image: url('../images/happy.svg');
-    animation-delay: 4s;
-}
-
-.particles span:nth-child(4) {
-    left: 50%;
-    width: 30px;
-    height: 30px;
-    background-image: url('../images/in-love.svg');
-    animation-delay: 0s;
-    animation-duration: 20s;
-}
-
-.particles span:nth-child(5) {
-    left: 65%;
-    width: 50px;
-    height: 50px;
-    background-image: url('../images/smart.svg');
-    animation-delay: 0s;
-}
-
-.particles span:nth-child(6) {
-    left: 75%;
-    width: 70px;
-    height: 70px;
-    background-image: url('../images/surprised.svg');
-    animation-delay: 3s;
-}
-
-.particles span:nth-child(7) {
-    left: 85%;
-    width: 45px;
-    height: 45px;
-    background-image: url('../images/suspicious.svg');
-    animation-delay: 7s;
-}
-
-.particles span:nth-child(8) {
-    left: 90%;
-    width: 55px;
-    height: 55px;
-    background-image: url('../images/surprised.svg');
-    animation-delay: 15s;
-    animation-duration: 30s;
-}
-
-.particles span:nth-child(9) {
-    left: 5%;
-    width: 65px;
-    height: 65px;
-    background-image: url('../images/tongue.svg');
-    animation-delay: 5s;
-}
+.particles span:nth-child(1) { left: 10%; width: 80px; height: 80px; background-image: url('../images/cry.svg'); animation-delay: 0s; }
+.particles span:nth-child(2) { left: 20%; width: 40px; height: 40px; background-image: url('../images/angry.svg'); animation-delay: 2s; animation-duration: 17s; }
+.particles span:nth-child(3) { left: 35%; width: 60px; height: 60px; background-image: url('../images/happy.svg'); animation-delay: 4s; }
+.particles span:nth-child(4) { left: 50%; width: 30px; height: 30px; background-image: url('../images/in-love.svg'); animation-delay: 0s; animation-duration: 20s; }
+.particles span:nth-child(5) { left: 65%; width: 50px; height: 50px; background-image: url('../images/smart.svg'); animation-delay: 0s; }
+.particles span:nth-child(6) { left: 75%; width: 70px; height: 70px; background-image: url('../images/surprised.svg'); animation-delay: 3s; }
+.particles span:nth-child(7) { left: 85%; width: 45px; height: 45px; background-image: url('../images/suspicious.svg'); animation-delay: 7s; }
+.particles span:nth-child(8) { left: 90%; width: 55px; height: 55px; background-image: url('../images/surprised.svg'); animation-delay: 15s; animation-duration: 30s; }
+.particles span:nth-child(9) { left: 5%; width: 65px; height: 65px; background-image: url('../images/tongue.svg'); animation-delay: 5s; }
 
 @keyframes animate {
-    0% {
-        transform: translateY(0) rotate(0deg);
-        opacity: 1;
-        border-radius: 0;
-    }
-    100% {
-        transform: translateY(-1000px) rotate(720deg);
-        opacity: 0;
-        border-radius: 50%;
-    }
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; border-radius: 0; }
+    100% { transform: translateY(-1000px) rotate(720deg); opacity: 0; border-radius: 50%; }
 }
 
 /* ========================================
-   KONTENER FORMULARZA (LOGIN & REGISTER)
+   STYLE LOGOWANIA
    ======================================== */
-.container {
-    position: relative;
-    z-index: 1;
-    background: white;
-    padding: 40px;
-    border-radius: 10px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    width: 100%;
-    max-width: 400px;
-}
-
-h2 {
-    text-align: center;
-    color: #333;
-    margin-bottom: 30px;
-}
-
-.register-container {
-    max-width: 650px !important;
-}
-
-.form-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    margin-bottom: 20px;
-}
-
-.form-full-width {
-    grid-column: 1 / -1;
-}
-
-/* ========================================
-   FORMULARZE
-   ======================================== */
-.form-group {
-    margin-bottom: 20px;
-}
-
-label {
-    display: block;
-    margin-bottom: 5px;
-    color: #555;
-    font-weight: 500;
-}
-
-input {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 14px;
-    transition: border-color 0.3s;
-}
-
-input:focus {
-    outline: none;
-    border-color: #667eea;
-}
-
-.btn {
-    width: 100%;
-    padding: 12px;
-    background: #7d96dc;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: transform 0.2s;
-}
-
-.btn:hover {
-    transform: translateY(-2px);
-}
-
-/* ========================================
-   ALERTY
-   ======================================== */
-.alert {
-    padding: 12px;
-    margin-bottom: 20px;
-    border-radius: 5px;
-    text-align: center;
-}
-
-.alert-success {
-    background-color: #d4edda;
-    color: #155724;
-    border: 1px solid #c3e6cb;
-}
-
-.alert-error {
-    background-color: #f8d7da;
-    color: #721c24;
-    border: 1px solid #f5c6cb;
-}
-
-/* ========================================
-   LINKI (LOGIN & REGISTER)
-   ======================================== */
-.register-link,
-.login-link {
-    text-align: center;
-    margin-top: 20px;
-    color: #666;
-}
-
-.register-link a,
-.login-link a {
-    color: #667eea;
-    text-decoration: none;
-    font-weight: 600;
-}
-
-.register-link a:hover,
-.login-link a:hover {
-    text-decoration: underline;
-}
-
-/* ========================================
-   BŁĘDY WALIDACJI
-   ======================================== */
-.error {
-    color: #dc3545;
-    font-size: 12px;
-    margin-top: 5px;
-}
-
-.optional {
-    color: #999;
-    font-size: 12px;
-    font-weight: normal;
-}
-
-/* ========================================
-   NAVBAR (DASHBOARD)
-   ======================================== */
-.navbar {
-    background: #7d96dc;
-    color: white;
-    padding: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    position: relative;
-    z-index: 100;
-}
-
-.navbar h1 {
-    font-size: 24px;
-}
-
-.navbar-right {
+body.auth-page {
+    background: linear-gradient(135deg, #7d96dc 0%, #a8c0ff 100%);
+    min-height: 100vh;
     display: flex;
     align-items: center;
-    gap: 20px;
-    position: relative;
-    z-index: 10;
+    justify-content: center;
 }
 
-.logout-btn {
-    background: rgba(255,255,255,0.2);
-    color: white;
-    padding: 8px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    text-decoration: none;
-    transition: background 0.3s;
-    position: relative;
-    z-index: 10;
-}
-
-.logout-btn:hover {
-    background: rgba(255,255,255,0.3);
-}
-
-/* ========================================
-   DASHBOARD CONTAINER
-   ======================================== */
-.dashboard-container {
-    max-width: 1200px;
-    margin: 40px auto;
-    padding: 0 20px;
-}
-
-.welcome-card {
-    background: white;
-    padding: 40px;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    text-align: center;
-}
-
-.welcome-card h2 {
-    color: #333;
-    margin-bottom: 10px;
-}
-
-.welcome-card h3 {
-    color: #333;
-    margin-top: 25px;
-    margin-bottom: 15px;
-}
-
-.user-info {
-    color: #666;
-    margin-top: 20px;
-}
-
-.user-info p {
-    margin: 8px 0;
-}
-
-.user-info strong {
-    color: #667eea;
-}
-
-/* ========================================
-   LANGUAGE SWITCH (AUTH PAGES)
-   ======================================== */
-.language-switcher {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 900;
-    display: flex;
-    gap: 10px;
-}
-
-.lang-link {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 8px 15px;
-    border-radius: 5px;
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-    transition: all 0.3s;
-    backdrop-filter: blur(10px);
-}
-
-.lang-link:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: translateY(-2px);
-}
-
-/* ========================================
-   SETTINGS DROPDOWN (DASHBOARD & AUTH)
-   ======================================== */
-.settings-dropdown {
-    position: relative;
-    display: inline-block;
-}
-
-.navbar-right .settings-dropdown {
-    margin-right: 0;
-}
-
-body.auth-page .settings-dropdown {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 1100;
-}
-
-.settings-btn {
-    background: rgba(255, 255, 255, 0.2);
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-    padding: 10px;
-    border-radius: 50%;
-    transition: transform 0.3s ease, background 0.3s;
-    backdrop-filter: blur(10px);
-    position: relative;
-    z-index: 1101;
-}
-
-.settings-btn:hover {
-    transform: rotate(90deg);
-    background: rgba(255, 255, 255, 0.3);
-}
-
-.settings-menu {
-    display: none;
-    position: absolute;
-    right: 0;
-    top: 50px;
-    background: white;
-    min-width: 200px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    border-radius: 8px;
-    z-index: 1200;
-    overflow: hidden;
-}
-
-.settings-menu.show {
-    display: block;
-    animation: slideDown 0.3s ease;
-}
-
-@keyframes slideDown {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.settings-section {
-    padding: 15px;
-}
-
-.settings-section h4 {
-    margin: 0 0 10px 0;
-    font-size: 14px;
-    color: #666;
-    text-transform: uppercase;
-}
-
-.setting-option {
-    display: block;
-    width: 100%;
-    padding: 10px 15px;
-    text-align: left;
-    background: none;
-    border: none;
-    color: #333;
-    text-decoration: none;
-    cursor: pointer;
-    transition: background 0.2s;
-    font-size: 16px;
-    border-radius: 5px;
-}
-
-.setting-option:hover {
-    background: #f0f0f0;
-}
-
-.settings-divider {
-    height: 1px;
-    background: #e0e0e0;
-}
-
-.welcome-message {
-    font-size: 18px;
-    color: #555;
-    margin: 10px 0 20px 0;
-    font-weight: 500;
-}
-
-/* ========================================
-   ACTIVE STATE
-   ======================================== */
-.setting-option.active,
-.setting-option[data-active="true"] {
-    background: #e3f2fd;
-    color: #1976d2;
-    font-weight: 600;
-}
-
-/* ========================================
-   DARK THEME - DASHBOARD
-   ======================================== */
-body.theme-dark {
-    background: #1a1a1a;
-    color: #e0e0e0;
-}
-
-body.theme-dark .navbar {
-    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-}
-
-body.theme-dark .welcome-card {
-    background: rgba(50, 50, 50, 0.9);
-    color: #e0e0e0;
-}
-
-body.theme-dark h1,
-body.theme-dark h2,
-body.theme-dark h3 {
-    color: #e0e0e0;
-}
-
-body.theme-dark .settings-menu {
-    background: #2c2c2c;
-    color: #e0e0e0;
-}
-
-body.theme-dark .setting-option {
-    color: #e0e0e0;
-}
-
-body.theme-dark .setting-option:hover {
-    background: #3c3c3c;
-}
-
-body.theme-dark .settings-section h4 {
-    color: #999;
-}
-
-body.theme-dark .setting-option.active,
-body.theme-dark .setting-option[data-active="true"] {
-    background: #1565c0;
-    color: #fff;
-}
-
-/* ========================================
-   DARK THEME - AUTH PAGES
-   ======================================== */
-body.auth-page.theme-dark {
+[data-bs-theme="dark"] body.auth-page {
     background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
 }
 
-body.auth-page.theme-dark .container {
-    background: rgba(30, 30, 30, 0.95);
-    color: #e0e0e0;
+.auth-card {
+    backdrop-filter: blur(10px);
+    border: none;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
 }
 
-body.auth-page.theme-dark .container h2 {
-    color: #fff;
-}
-
-body.auth-page.theme-dark input {
-    background: rgba(50, 50, 50, 0.8);
-    color: #e0e0e0;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-body.auth-page.theme-dark input::placeholder {
-    color: #999;
-}
-
-body.auth-page.theme-dark .btn {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-}
-
-body.auth-page.theme-dark .btn:hover {
-    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
-}
-
-body.auth-page.theme-dark .register-link,
-body.auth-page.theme-dark .login-link {
-    color: #ccc;
-}
-
-body.auth-page.theme-dark .register-link a,
-body.auth-page.theme-dark .login-link a {
-    color: #667eea;
-}
-
-body.auth-page.theme-dark .settings-menu {
-    background: #2c2c2c;
-    color: #e0e0e0;
-}
-
-body.auth-page.theme-dark .setting-option {
-    color: #e0e0e0;
-}
-
-body.auth-page.theme-dark .setting-option:hover {
-    background: #3c3c3c;
-}
-
-body.auth-page.theme-dark .settings-section h4 {
-    color: #999;
-}
-
-body.auth-page.theme-dark label {
-    color: #e0e0e0;
-}
-
-body.auth-page.theme-dark .alert-error {
-    background: rgba(198, 40, 40, 0.2);
-    border-color: #c62828;
-    color: #ff6b6b;
-}
-
-body.auth-page.theme-dark .alert-success {
-    background: rgba(46, 125, 50, 0.2);
-    border-color: #2e7d32;
-    color: #81c784;
-}
-
-/* ========================================
-   LOGO
-   ======================================== */
-
-.login-wrapper {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    margin-top: -50px;
-}
-
-.logo-container {
+.logo-img {
+    width: 120px;
+    height: 120px;
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+    margin-bottom: -30px;
     position: relative;
     z-index: 10;
-    margin-bottom: -60px;
-    animation: logoFloat 0.8s ease-out;
-}
-
-.logo-container img {
-    width: 256px;
-    height: 256px;
-    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.2));
-}
-
-@keyframes logoFloat {
-    from {
-        opacity: 0;
-        transform: translateY(-30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
 }
 
 /* ========================================
-   MOOD FORM
+   ELEMENTY DASHBOARDU
    ======================================== */
-
-.mood-option {
-    text-align: center;
-    margin-bottom: 10px;
+.weather-widget-bg {
+    /* ZMIANA: Usunięty gradient, jednolity kolor (np. głęboki fiolet/niebieski) */
+    background-color: #4e54c8;
+    color: white;
 }
 
-.mood-option input[type="radio"] {
-    display: none;
-}
-
+/* Ikony nastroju */
+.mood-option input { display: none; }
 .mood-option label {
-    font-size: 2.5rem;
+    font-size: 2rem;
     cursor: pointer;
-    padding: 0 0.25em;
     opacity: 0.5;
-    transition: opacity 0.2s;
+    transition: transform 0.2s;
 }
-
-.mood-option label:hover {
-    opacity: 0.8;
-    transform: scale(1.1);
-}
-
-.mood-option input[type="radio"]:checked ~ label {
+.mood-option label:hover { opacity: 0.8; }
+.mood-option input:checked ~ label {
     opacity: 1;
     transform: scale(1.25);
-    text-shadow: 0 0 10px rgba(0,0,0,0.2);
 }
 
-.mood-form textarea {
-    width: 100%;
-    padding: 10px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-    resize: vertical;
-}
-
-.alert {
-    padding: 15px;
-    margin-bottom: 20px;
-    border: 1px solid transparent;
-    border-radius: 4px;
-}
-.alert-success {
-    color: #155724;
-    background-color: #d4edda;
-    border-color: #c3e6cb;
-}
-.alert-error {
-    color: #721c24;
-    background-color: #f8d7da;
-    border-color: #f5c6cb;
-}
-
-/* ========================================
-   Hydration & Activity
-   ======================================== */
-
-.icon-selection {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    flex-wrap: wrap;
-    margin: 15px 0;
-}
-
-.icon-selection label {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    cursor: pointer;
-    padding: 10px;
-    border: 2px solid transparent;
-    border-radius: 10px;
-    transition: all 0.3s ease;
-    opacity: 0.6;
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
-.icon-selection label span.emoji {
-    font-size: 2.5rem;
-    margin-bottom: 5px;
-}
-
-.icon-selection label span.label-text {
-    font-size: 0.8rem;
-    font-weight: bold;
-}
-
-.icon-selection label:hover {
-    opacity: 1;
-    background-color: rgba(255, 255, 255, 0.2);
-    transform: translateY(-3px);
-}
-
-.icon-selection input[type="checkbox"]{
-    display: none;
-}
-
-.icon-selection input[type="checkbox"]:checked ~ label {
-    opacity: 1;
-    border-color: #2196F3;
-    background-color: rgba(33, 150, 243, 0.1);
-    transform: scale(1.1);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-}
-
-.small-icons .icon-selection {
-    gap: 10px;
-}
-
-.small-icons label {
-    padding: 5px;
-}
-
-.small-icons .emoji {
-    font-size: 1.8rem;
-}
-
-.water-tracker {
-    display: flex;
-    justify-content: center;
-    gap: 5px;
-    margin: 20px 0;
-    cursor: pointer;
-}
-
+/* Szklanki wody */
 .water-glass {
-    font-size: 2.5rem;
-    transition: all 0.2s ease;
+    font-size: 1.8rem;
+    cursor: pointer;
     opacity: 0.3;
     filter: grayscale(100%);
+    transition: all 0.2s;
 }
+.water-glass.filled { opacity: 1; filter: grayscale(0%); transform: scale(1.1); }
 
-.water-glass.filled {
-    opacity: 1;
-    filter: grayscale(0%);
-    transform: scale(1.1);
-}
-
-.water-glass.hovered {
-    opacity: 0.8;
-    filter: grayscale(20%);
-    transform: scale(1.05);
+/* Kompatybilność z Twoim starym JS (ajax-forms) */
+.alert-error {
+    background-color: #f8d7da;
+    color: #842029;
+    border-color: #f5c2c7;
 }
 
 /* ========================================
-   CALENDAR-WRAPPER
+   FULLCALENDAR (Nadpisanie stylów Bootstrap)
    ======================================== */
 #calendar {
-    width: 60%;
-    margin: 20px auto;
+    font-family: inherit;
 }
-
-.calendar-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-.calendar-header button {
-    width: auto;
-    padding: 5px 15px;
-    cursor: pointer;
-}
-
-.calendar-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 5px;
-}
-
-.day-name {
+.fc-toolbar-title {
+    font-size: 1.25rem !important;
     font-weight: bold;
-    text-align: center;
-    padding: 5px 0;
+    text-transform: capitalize;
 }
 
-.day {
-    height: 50px;
-    background: #f3f3f3;
-    border-radius: 4px;
-    text-align: center;
-    line-height: 50px;
-    cursor: pointer;
-    transition: 0.2s;
+/* NAPRAWA: Kolor dni tygodnia w nagłówku kalendarza */
+.fc-col-header-cell-cushion {
+    color: var(--bs-body-color); /* Dostosowuje się do motywu Bootstrapa */
+    text-decoration: none;
+}
+[data-bs-theme="dark"] .fc-col-header-cell-cushion {
+    color: #e0e0e0;
 }
 
-.day:hover {
-    background: #dcdcdc;
-}
+.fc-daygrid-day { cursor: pointer; transition: background-color 0.2s; }
+.fc-daygrid-day:hover { background-color: var(--bs-tertiary-bg); }
+.fc-day-today { background-color: var(--bs-primary-bg-subtle) !important; }
 
-.today {
-    background: #33ccff;
-    border: 2px solid #0099ff;
-    color: #000;
-    font-weight: bold;
+/* FullCalendar Dark Mode fixes */
+[data-bs-theme="dark"] .fc-button-primary {
+    background-color: var(--bs-dark);
+    border-color: var(--bs-gray-700);
+    color: var(--bs-light);
 }
-.today:hover{
-    background: #0099ff;
+[data-bs-theme="dark"] .fc-button-primary:hover {
+    background-color: var(--bs-gray-800);
+}
+[data-bs-theme="dark"] .fc-daygrid-day:hover {
+    background-color: rgba(255,255,255,0.05);
 }
 
 /* ========================================
-   CALENDAR MODAL
+   STYLE WYDARZEŃ KALENDARZA (Ptaszki)
    ======================================== */
 
-.calendar-modal {
+/* Tło dla wypełnionego dnia */
+.filled-day-bg {
+    opacity: 0.6; /* Lekka przezroczystość tła */
+}
+
+/* Ikonka ✅ */
+.filled-day-icon {
+    background: transparent !important; /* Usuwa domyślne tło zdarzenia */
+    border: none !important;            /* Usuwa obramowanie */
+    box-shadow: none !important;        /* Usuwa cień */
+    text-align: center;                 /* Wyśrodkowanie */
+    font-size: 1.2rem;                  /* Rozmiar ikonki */
+    margin-top: 0;
+    pointer-events: none;               /* Ważne: pozwala klikać "przez" ikonę w komórkę dnia */
+}
+
+/* Ukryj kropkę (dot) która domyślnie pojawia się przy zdarzeniach w FullCalendar */
+.filled-day-icon .fc-event-dot {
     display: none;
-    position: fixed;
-    z-index: 2000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0,0,0,0.6);
-    backdrop-filter: blur(5px);
-}
-
-#dayModalContent {
-    background-color: #fefefe;
-    margin: 5% auto;
-    padding: 30px;
-    border: 1px solid #888;
-    width: 90%;
-    max-width: 800px;
-    border-radius: 12px;
-    position: relative;
-    max-height: 90vh;
-    overflow-y: auto;
-}
-
-.section-divider {
-    margin: 40px 0;
-    border: 0;
-    border-top: 1px solid #eee;
-}
-
-#closeModal {
-    cursor: pointer;
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-weight: bold;
-    font-size: 18px;
-}
-
-#closeModal:hover {
-    color: black;
-}
-
-.btn-sm {
-    padding: 8px 16px;
-    font-size: 0.9rem;
-    width: 100%;
-    margin-top: 10px;
-}
-
-.readonly-section {
-    background: #f8f9fa;
-    padding: 15px;
-    border-radius: 8px;
-    margin-bottom: 15px;
-    border-left: 4px solid #2196F3;
-}
-
-/* ========================================
-   CALENDAR-WRAPPER (THEME-DARK)
-   ======================================== */
-body.theme-dark #calendar{
-    background: #1b1e23;
-    color: #e4e4e4;
-    border-radius: 8px;
-    padding: 15px;
-}
-
-body.theme-dark .calendar-header button {
-    background: #2a2d33;
-    color: #ffffff;
-    border: 1px solid #3c3f44;
-}
-
-body.theme-dark .calendar-header button:hover {
-    background: #3c3f44;
-}
-
-body.theme-dark #monthLabel {
-    color: #ffffff;
-}
-
-body.theme-dark .day-name {
-    color: #d3d3d3;
-}
-
-body.theme-dark .day {
-    background: #2a2d33;
-    color: #e4e4e4;
-    border: 1px solid #383b40;
-}
-
-body.theme-dark .day:hover {
-    background: #3a3d42;
-}
-
-body.theme-dark .today {
-    background: #0c2e38;
-    border: 2px solid #06202c;
-    color: #ffffff;
-    font-weight: bold;
-}
-
-body.theme-dark .today:hover {
-    background: #06202c;
-}
-
-body.theme-dark #dayModal {
-    background: rgba(0, 0, 0, 0.7);
-}
-
-body.theme-dark #dayModalContent {
-    background: #2a2d33;
-    color: #ffffff;
-}
-
-body.theme-dark #closeModal {
-    color: #fff;
-}
-
-body.theme-dark .readonly-section {
-    background: #3a3d42;
-}
-
-body.theme-dark .btn-sm {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-}
-
-body.theme-dark .btn-sm:hover {
-    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
-}
-
-body.theme-dark #comment {
-    background: #3a3d42;
-}
-
-body.theme-dark .leaflet-tile-pane {
-    filter: invert(100%) hue-rotate(180deg) brightness(95%) contrast(90%);
-}
-
-body.theme-dark .leaflet-popup-content-wrapper,
-body.theme-dark .leaflet-popup-tip {
-    background-color: #2a2d33;
-    color: #e4e4e4;
 }

@@ -9,4 +9,5 @@ public enum ActivityType {
     YOGA,
     BALLGAME,
     OTHER,
+    NOTHING
 }

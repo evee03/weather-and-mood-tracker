@@ -12,6 +12,7 @@ import pl.pollub.weather_mood_tracker.repository.UserRepository;
 import pl.pollub.weather_mood_tracker.testutil.TestDataFactory;
 import pl.pollub.weather_mood_tracker.dto.UserLoginDto;
 
+import java.util.Locale;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -42,7 +43,7 @@ class UserServiceLoginTest {
         when(userRepository.findByUsernameOrEmail("WalterWhite", "WalterWhite")).thenReturn(Optional.of(validUser));
         when(passwordEncoder.matches("bluesky123!", "encodedPassword")).thenReturn(true);
 
-        Optional<User> result = userService.loginUser(login);
+        Optional<User> result = userService.loginUser(login, new Locale("pl", "PL"));
 
         assertTrue(result.isPresent());
         assertEquals("WalterWhite", result.get().getUsername());
@@ -55,7 +56,7 @@ class UserServiceLoginTest {
         when(userRepository.findByUsernameOrEmail("WalterWhite", "WalterWhite")).thenReturn(Optional.of(validUser));
         when(passwordEncoder.matches("crappymeth", "encodedPassword")).thenReturn(false);
 
-        Optional<User> result = userService.loginUser(login);
+        Optional<User> result = userService.loginUser(login, new Locale("pl", "PL"));
 
         assertFalse(result.isPresent());
     }
@@ -65,10 +66,9 @@ class UserServiceLoginTest {
         UserLoginDto login = TestDataFactory.loginDto("ghost_user", "blank");
         when(userRepository.findByUsernameOrEmail("ghost_user", "ghost_user")).thenReturn(Optional.empty());
 
-        Optional<User> result = userService.loginUser(login);
+        Optional<User> result = userService.loginUser(login, new Locale("pl", "PL"));
 
         assertFalse(result.isPresent());
         verify(passwordEncoder, never()).matches(anyString(), anyString());
     }
-
 }

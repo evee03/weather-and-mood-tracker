@@ -13,8 +13,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.pollub.weather_mood_tracker.config.Language;
 import pl.pollub.weather_mood_tracker.dto.*;
 import pl.pollub.weather_mood_tracker.model.User;
+import pl.pollub.weather_mood_tracker.model.Weather;
+import pl.pollub.weather_mood_tracker.service.QuoteService;
 import pl.pollub.weather_mood_tracker.service.UserService;
+import pl.pollub.weather_mood_tracker.service.WeatherService;
 
+import java.time.LocalDate;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
@@ -24,6 +28,8 @@ import java.util.Optional;
 public class AuthController {
 
     private final UserService userService;
+    private final WeatherService weatherService;
+    private final QuoteService quoteService;
 
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
@@ -102,40 +108,60 @@ public class AuthController {
     @GetMapping("/dashboard")
     public String dashboard(HttpSession session, Model model) {
         Long userId = (Long) session.getAttribute("userId");
+        if (userId == null) return "redirect:/login";
 
-        if (userId == null) {
-            return "redirect:/login";
-        }
-
-        if (!model.containsAttribute("moodEntry")) {
-            model.addAttribute("moodEntry", new MoodEntryDto());
-        }
-
-        if (!model.containsAttribute("hydrationEntry")) {
-            model.addAttribute("hydrationEntry", new HydrationEntryDto());
-        }
-
-        if (!model.containsAttribute("activityEntry")) {
-            model.addAttribute("activityEntry", new ActivityEntryDto());
-        }
+        if (!model.containsAttribute("moodEntry")) model.addAttribute("moodEntry", new MoodEntryDto());
+        if (!model.containsAttribute("hydrationEntry")) model.addAttribute("hydrationEntry", new HydrationEntryDto());
+        if (!model.containsAttribute("activityEntry")) model.addAttribute("activityEntry", new ActivityEntryDto());
 
         Optional<User> userOpt = userService.findById(userId);
         if (userOpt.isPresent()) {
             User user = userOpt.get();
             model.addAttribute("user", user);
 
+            String langCode = "pl";
+            String theme = "light";
             if (user.getSettings() != null) {
-                model.addAttribute("userTheme", user.getSettings().getTheme().name().toLowerCase());
-                model.addAttribute("userLanguage", user.getSettings().getPreferredLanguage().name().toLowerCase());
-            } else {
-                model.addAttribute("userTheme", "light");
-                model.addAttribute("userLanguage", "pl");
+                theme = user.getSettings().getTheme().name().toLowerCase();
+                langCode = user.getSettings().getPreferredLanguage().name().toLowerCase();
             }
+            model.addAttribute("userTheme", theme);
+            model.addAttribute("userLanguage", langCode);
+
+            String quote = quoteService.getQuoteOfDay(langCode);
+            model.addAttribute("dailyQuote", quote);
+
+            Weather currentWeather = weatherService.getOrCreateWeather(user.getCity());
+            model.addAttribute("currentWeather", currentWeather);
+
+            String advice = getWeatherAdvice(currentWeather.getWeatherType().name(), langCode);
+            model.addAttribute("weatherAdvice", advice);
+
+            String city = user.getCity();
+            long usersInCity = userService.countUsersInCity(city);
+
+            Double vibeToday = userService.getCityAverageMoodForDate(city, LocalDate.now());
+            Double vibeYesterday = userService.getCityAverageMoodForDate(city, LocalDate.now().minusDays(1));
+
+            model.addAttribute("usersInCity", usersInCity);
+            model.addAttribute("vibeToday", vibeToday);
+            model.addAttribute("vibeYesterday", vibeYesterday);
 
             return "dashboard";
         }
 
         return "redirect:/login";
+    }
+
+    private String getWeatherAdvice(String weatherType, String lang) {
+        boolean isPl = "pl".equalsIgnoreCase(lang);
+        return switch (weatherType) {
+            case "RAINY", "STORMY" -> isPl ? "Zaparz herbatę i odpocznij w domu" : "Make some tea and relax at home";
+            case "SUNNY" -> isPl ? "Idealny czas na spacer i witaminę D!" : "Perfect time for a walk and some Vitamin D!";
+            case "SNOWY" -> isPl ? "Może ulepimy bałwana?" : "Do you want to build a snowman?";
+            case "CLOUDY" -> isPl ? "Dobra pogoda na skupienie i pracę" : "Good weather for focus and work";
+            default -> isPl ? "Pamiętaj o nawodnieniu niezależnie od pogody" : "Remember to stay hydrated regardless of weather";
+        };
     }
 
     @PostMapping("/api/settings/city")
