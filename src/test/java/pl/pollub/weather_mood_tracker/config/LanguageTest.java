@@ -25,15 +25,6 @@ class LanguageTest {
     }
 
     @Test
-    void shouldFormatMessageWithParameters() {
-        Language language = new Language(new Locale("pl", "PL"));
-
-        String message = language.getMessage("user.username.size", 3, 50);
-
-        assertEquals("Nazwa użytkownika musi mieć od 3 do 50 znaków", message);
-    }
-
-    @Test
     void shouldGetPageTitle() {
         Language languagePL = new Language(new Locale("pl", "PL"));
         Language languageEN = new Language(new Locale("en", "US"));

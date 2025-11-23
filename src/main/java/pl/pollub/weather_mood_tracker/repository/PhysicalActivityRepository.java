@@ -10,6 +10,6 @@ import java.util.List;
 
 @Repository
 public interface PhysicalActivityRepository extends JpaRepository<PhysicalActivity, Long> {
-
     List<PhysicalActivity> findAllByUserAndDate(User user, LocalDate date);
+    List<PhysicalActivity> findAllByUserAndDateBetween(User user, LocalDate start, LocalDate end);
 }

@@ -13,10 +13,12 @@ import pl.pollub.weather_mood_tracker.model.User;
 import pl.pollub.weather_mood_tracker.repository.UserRepository;
 import pl.pollub.weather_mood_tracker.testutil.TestDataFactory;
 
+import java.util.Locale;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -27,6 +29,9 @@ class UserServiceMultipleUsersTest {
 
     @Mock
     private PasswordEncoder passwordEncoder;
+
+    @Mock
+    private WeatherService weatherService;
 
     @InjectMocks
     private UserService userService;
@@ -48,12 +53,14 @@ class UserServiceMultipleUsersTest {
 
     @Test
     void registerMultipleUsers_Success() throws Exception {
+        when(weatherService.isCityValid(anyString())).thenReturn(true);
+
         when(userRepository.existsByUsername("ania.kowalska")).thenReturn(false);
         when(userRepository.existsByEmail("ania.kowalska@example.com")).thenReturn(false);
         when(passwordEncoder.encode("HasloMaslo123!")).thenReturn("encodedAniaPassword");
         when(userRepository.save(any(User.class))).thenReturn(aniaUser);
 
-        User aniaResult = userService.registerUser(aniaDto);
+        User aniaResult = userService.registerUser(aniaDto, new Locale("pl", "PL"));
 
         assertNotNull(aniaResult);
         assertEquals("ania.kowalska", aniaResult.getUsername());
@@ -64,7 +71,7 @@ class UserServiceMultipleUsersTest {
         when(passwordEncoder.encode("SuperTajne@Haslo9!")).thenReturn("encodedJanPassword");
         when(userRepository.save(any(User.class))).thenReturn(janUser);
 
-        User janResult = userService.registerUser(janDto);
+        User janResult = userService.registerUser(janDto, new Locale("pl", "PL"));
 
         assertNotNull(janResult);
         assertEquals("JanNowak", janResult.getUsername());
@@ -79,7 +86,7 @@ class UserServiceMultipleUsersTest {
         when(userRepository.findByUsernameOrEmail("ania.kowalska", "ania.kowalska")).thenReturn(Optional.of(aniaUser));
         when(passwordEncoder.matches("HasloMaslo123!", "encodedAniaPassword")).thenReturn(true);
 
-        Optional<User> aniaResult = userService.loginUser(aniaLogin);
+        Optional<User> aniaResult = userService.loginUser(aniaLogin, new Locale("pl", "PL"));
         assertTrue(aniaResult.isPresent());
         assertEquals("ania.kowalska", aniaResult.get().getUsername());
         assertEquals("Kraków", aniaResult.get().getCity());
@@ -88,7 +95,7 @@ class UserServiceMultipleUsersTest {
         when(userRepository.findByUsernameOrEmail("jan.nowak@example.com", "jan.nowak@example.com")).thenReturn(Optional.of(janUser));
         when(passwordEncoder.matches("SuperTajne@Haslo9!", "encodedJanPassword")).thenReturn(true);
 
-        Optional<User> janResult = userService.loginUser(janLogin);
+        Optional<User> janResult = userService.loginUser(janLogin, new Locale("pl", "PL"));
         assertTrue(janResult.isPresent());
         assertEquals("JanNowak", janResult.get().getUsername());
         assertEquals("Warszawa", janResult.get().getCity());
@@ -98,7 +105,9 @@ class UserServiceMultipleUsersTest {
     void registerUser_UsernameConflict_WhenAniaAlreadyExists() {
         when(userRepository.existsByUsername("ania.kowalska")).thenReturn(true);
 
-        Exception exception = assertThrows(Exception.class, () -> userService.registerUser(aniaDto));
+        Exception exception = assertThrows(Exception.class, () ->
+                userService.registerUser(aniaDto, new Locale("en", "US"))
+        );
 
         assertEquals("Username already exists", exception.getMessage());
         verify(userRepository, never()).save(any(User.class));
@@ -109,7 +118,9 @@ class UserServiceMultipleUsersTest {
         when(userRepository.existsByUsername(anyString())).thenReturn(false);
         when(userRepository.existsByEmail("jan.nowak@example.com")).thenReturn(true);
 
-        Exception exception = assertThrows(Exception.class, () -> userService.registerUser(janDto));
+        Exception exception = assertThrows(Exception.class, () ->
+                userService.registerUser(janDto, new Locale("en", "US"))
+        );
 
         assertEquals("Email already exists", exception.getMessage());
         verify(userRepository, never()).save(any(User.class));
@@ -120,13 +131,15 @@ class UserServiceMultipleUsersTest {
         UserLoginDto aniaLogin = TestDataFactory.loginDto("ania.kowalska", "HasloMaslo123!");
         when(userRepository.findByUsernameOrEmail("ania.kowalska", "ania.kowalska")).thenReturn(Optional.of(aniaUser));
         when(passwordEncoder.matches("HasloMaslo123!", "encodedAniaPassword")).thenReturn(true);
-        Optional<User> aniaResult = userService.loginUser(aniaLogin);
+
+        Optional<User> aniaResult = userService.loginUser(aniaLogin, new Locale("pl", "PL"));
         assertTrue(aniaResult.isPresent());
 
         UserLoginDto janLogin = TestDataFactory.loginDto("JanNowak", "ZleHaslo123");
         when(userRepository.findByUsernameOrEmail("JanNowak", "JanNowak")).thenReturn(Optional.of(janUser));
         when(passwordEncoder.matches("ZleHaslo123", "encodedJanPassword")).thenReturn(false);
-        Optional<User> janResult = userService.loginUser(janLogin);
+
+        Optional<User> janResult = userService.loginUser(janLogin, new Locale("pl", "PL"));
         assertFalse(janResult.isPresent());
     }
 
@@ -152,6 +165,8 @@ class UserServiceMultipleUsersTest {
         UserRegistrationDto poznanUser = TestDataFactory.registrationDto("user.poznan", "poznan@example.com", "Pass123!", "Poznań");
         UserRegistrationDto wroclawUser = TestDataFactory.registrationDto("user.wroclaw", "wroclaw@example.com", "Pass456!", "Wrocław");
 
+        when(weatherService.isCityValid(anyString())).thenReturn(true);
+
         when(userRepository.existsByUsername(anyString())).thenReturn(false);
         when(userRepository.existsByEmail(anyString())).thenReturn(false);
         when(passwordEncoder.encode(anyString())).thenReturn("encodedPassword");
@@ -161,8 +176,8 @@ class UserServiceMultipleUsersTest {
             return user;
         });
 
-        User poznanResult = userService.registerUser(poznanUser);
-        User wroclawResult = userService.registerUser(wroclawUser);
+        User poznanResult = userService.registerUser(poznanUser, new Locale("pl", "PL"));
+        User wroclawResult = userService.registerUser(wroclawUser, new Locale("pl", "PL"));
 
         assertNotNull(poznanResult);
         assertEquals("Poznań", poznanResult.getCity());
@@ -178,7 +193,7 @@ class UserServiceMultipleUsersTest {
         UserLoginDto login = TestDataFactory.loginDto("noone", "somePassword");
         when(userRepository.findByUsernameOrEmail("noone", "noone")).thenReturn(Optional.empty());
 
-        Optional<User> result = userService.loginUser(login);
+        Optional<User> result = userService.loginUser(login, new Locale("pl", "PL"));
 
         assertFalse(result.isPresent());
         verify(passwordEncoder, never()).matches(anyString(), anyString());

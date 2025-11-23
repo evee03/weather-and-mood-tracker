@@ -1,124 +1,94 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      th:lang="${param.lang != null ? param.lang : 'pl'}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="#{page.register.title}">Register - Weather Mood Tracker</title>
+    <title th:text="#{page.register.title}">Rejestracja</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body class="auth-page">
-<div class="settings-dropdown">
-    <button class="settings-btn" onclick="toggleSettings()">⚙️</button>
-    <div id="settingsMenu" class="settings-menu">
-        <div class="settings-section">
-            <h4 th:text="#{page.dashboard.settings.language}">Language</h4>
-            <a th:href="@{/register(lang='pl')}" class="setting-option">
-                Polski
-            </a>
-            <a th:href="@{/register(lang='en')}" class="setting-option">
-                English
-            </a>
-        </div>
-        <div class="settings-divider"></div>
-        <div class="settings-section">
-            <h4 th:text="#{page.dashboard.settings.theme}">Theme</h4>
-            <button class="setting-option" onclick="changeTheme('light')">
-                <span th:text="#{page.dashboard.settings.theme.light}">Light</span>
-            </button>
-            <button class="setting-option" onclick="changeTheme('dark')">
-                <span th:text="#{page.dashboard.settings.theme.dark}">Dark</span>
-            </button>
-        </div>
+
+<div class="particles"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+
+<div class="position-absolute top-0 end-0 p-3">
+    <div class="dropdown">
+        <button class="btn btn-light rounded-circle shadow-sm dropdown-toggle no-arrow" type="button" data-bs-toggle="dropdown">⚙️</button>
+        <ul class="dropdown-menu dropdown-menu-end shadow">
+            <li><h6 class="dropdown-header" th:text="#{page.dashboard.settings.language}">Język</h6></li>
+            <li><a class="dropdown-item" th:href="@{/register(lang='pl')}">Polski</a></li>
+            <li><a class="dropdown-item" th:href="@{/register(lang='en')}">English</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><h6 class="dropdown-header" th:text="#{page.dashboard.settings.theme}">Motyw</h6></li>
+            <li><button class="dropdown-item" onclick="changeTheme('light')" data-theme-value="light">☀️ Light</button></li>
+            <li><button class="dropdown-item" onclick="changeTheme('dark')" data-theme-value="dark">🌙 Dark</button></li>
+        </ul>
     </div>
 </div>
 
-<div class="particles">
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-</div>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-12 text-center">
+            <img th:src="@{/images/Logo_.svg}" alt="Logo" class="logo-img">
+        </div>
+        <div class="col-md-8 col-lg-6">
+            <div class="card auth-card p-4">
+                <div class="card-body">
+                    <h2 class="text-center mb-4 fw-bold" th:text="#{page.register.heading}">Rejestracja</h2>
 
-<div class="login-wrapper">
-    <div class="logo-container">
-        <img th:src="@{/images/Logo_.svg}"
-             alt="Weather Mood Tracker Logo">
-    </div>
+                    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
 
-    <div class="container register-container">
-        <h2 th:text="#{page.register.heading}">Register</h2>
+                    <form th:action="@{/register}" th:object="${user}" method="post">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label" th:text="#{page.register.username.label}">Nazwa</label>
+                                <input type="text" class="form-control" th:field="*{username}"
+                                       th:classappend="${#fields.hasErrors('username')} ? 'is-invalid'">
+                                <div class="invalid-feedback" th:errors="*{username}"></div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" th:text="#{page.register.email.label}">Email</label>
+                                <input type="email" class="form-control" th:field="*{email}"
+                                       th:classappend="${#fields.hasErrors('email')} ? 'is-invalid'">
+                                <div class="invalid-feedback" th:errors="*{email}"></div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" th:text="#{page.register.password.label}">Hasło</label>
+                                <input type="password" class="form-control" th:field="*{password}"
+                                       th:classappend="${#fields.hasErrors('password')} ? 'is-invalid'">
+                                <div class="invalid-feedback" th:errors="*{password}"></div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" th:text="#{page.register.confirmPassword.label}">Potwierdź</label>
+                                <input type="password" class="form-control" th:field="*{confirmPassword}"
+                                       th:classappend="${#fields.hasErrors('confirmPassword')} ? 'is-invalid'">
+                                <div class="invalid-feedback" th:errors="*{confirmPassword}"></div>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label">
+                                    <span th:text="#{page.register.city.label}">Miasto</span>
+                                    <small class="text-muted" th:text="#{page.register.city.optional}">(Opt)</small>
+                                </label>
+                                <input type="text" class="form-control" th:field="*{city}">
+                            </div>
+                            <div class="col-12 mt-4">
+                                <button type="submit" class="btn btn-primary w-100 btn-lg" th:text="#{page.register.button}">Zarejestruj</button>
+                            </div>
+                        </div>
+                    </form>
 
-        <div th:if="${error}" class="alert alert-error" th:text="${error}"></div>
-
-        <form th:action="@{/register}" th:object="${user}" method="post">
-            <div class="form-grid">
-                <!-- Username - lewa kolumna -->
-                <div class="form-group">
-                    <label for="username" th:text="#{page.register.username.label}">Username</label>
-                    <input type="text"
-                           id="username"
-                           th:field="*{username}"
-                           th:placeholder="#{page.register.username.placeholder}">
-                    <div class="error" th:if="${#fields.hasErrors('username')}"
-                         th:errors="*{username}"></div>
-                </div>
-
-                <div class="form-group">
-                    <label for="email" th:text="#{page.register.email.label}">Email</label>
-                    <input type="email"
-                           id="email"
-                           th:field="*{email}"
-                           th:placeholder="#{page.register.email.placeholder}">
-                    <div class="error" th:if="${#fields.hasErrors('email')}"
-                         th:errors="*{email}"></div>
-                </div>
-
-                <div class="form-group">
-                    <label for="password" th:text="#{page.register.password.label}">Password</label>
-                    <input type="password"
-                           id="password"
-                           th:field="*{password}"
-                           th:placeholder="#{page.register.password.placeholder}">
-                    <div class="error" th:if="${#fields.hasErrors('password')}"
-                         th:errors="*{password}"></div>
-                </div>
-
-                <div class="form-group">
-                    <label for="confirmPassword" th:text="#{page.register.confirmPassword.label}">Confirm Password</label>
-                    <input type="password"
-                           id="confirmPassword"
-                           th:field="*{confirmPassword}"
-                           th:placeholder="#{page.register.confirmPassword.placeholder}">
-                    <div class="error" th:if="${#fields.hasErrors('confirmPassword')}"
-                         th:errors="*{confirmPassword}"></div>
+                    <div class="text-center mt-3">
+                        <span class="text-muted" th:text="#{page.register.login.text}">Masz konto?</span>
+                        <a th:href="@{/login}" class="text-decoration-none fw-bold" th:text="#{page.register.login.link}">Zaloguj</a>
+                    </div>
                 </div>
             </div>
-
-            <div class="form-group form-full-width">
-                <label for="city">
-                    <span th:text="#{page.register.city.label}">City</span>
-                    <span class="optional" th:text="#{page.register.city.optional}">(Optional)</span>
-                </label>
-                <input type="text"
-                       id="city"
-                       th:field="*{city}"
-                       th:placeholder="#{page.register.city.placeholder}">
-            </div>
-
-            <button type="submit" class="btn" th:text="#{page.register.button}">Register</button>
-        </form>
-
-        <div class="login-link">
-            <span th:text="#{page.register.login.text}">Already have an account?</span>
-            <a th:href="@{/login}" th:text="#{page.register.login.link}">Login here</a>
         </div>
     </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script th:src="@{/js/theme-manager.js}"></script>
 </body>
 </html>

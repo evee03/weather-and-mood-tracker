@@ -1,13 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
     const mapElement = document.getElementById('map');
 
-    if (!mapElement) {
-        return;
-    }
+    if (!mapElement) return;
 
     const city = mapElement.getAttribute('data-city');
     const isCustomCity = mapElement.getAttribute('data-city-custom') === 'true';
-
     const labelUserCity = mapElement.getAttribute('data-label-user-city');
     const labelDefaultCity = mapElement.getAttribute('data-label-default-city');
     const labelErrorLoading = mapElement.getAttribute('data-label-error-loading');
@@ -20,7 +17,6 @@ document.addEventListener('DOMContentLoaded', function() {
             if (data.length > 0) {
                 const lat = data[0].lat;
                 const lon = data[0].lon;
-
                 const map = L.map('map').setView([lat, lon], 12);
 
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -31,13 +27,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     .bindPopup(`${locationLabel}: <b>${city}</b>`)
                     .openPopup();
             } else {
-                console.error('Nie udało się znaleźć współrzędnych dla miasta:', city);
-                mapElement.innerHTML = labelErrorLoading;
+                mapElement.innerHTML = `<div class="alert alert-warning">${labelErrorLoading} (${city})</div>`;
             }
         })
         .catch(error => {
             console.error('Błąd ładowania mapy:', error);
-            mapElement.innerHTML = labelErrorLoading;
+            mapElement.innerHTML = `<div class="alert alert-danger">${labelErrorLoading}</div>`;
         });
 });
 
@@ -45,12 +40,14 @@ function toggleCityEdit() {
     const display = document.getElementById('cityDisplay');
     const edit = document.getElementById('cityEdit');
 
-    if (display.style.display === 'none') {
-        display.style.display = 'inline';
-        edit.style.display = 'none';
+    if (edit.classList.contains('d-none')) {
+        edit.classList.remove('d-none');
+        display.classList.add('d-none');
+        display.classList.remove('d-flex');
     } else {
-        display.style.display = 'none';
-        edit.style.display = 'inline';
+        edit.classList.add('d-none');
+        display.classList.remove('d-none');
+        display.classList.add('d-flex');
     }
 }
 
@@ -59,20 +56,18 @@ function saveCity() {
 
     fetch('/api/settings/city', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ city: newCity })
     })
         .then(response => {
             if (response.ok) {
                 location.reload();
             } else {
-                alert("Nie znaleziono takiego miasta!");
+                alert("Nie udało się zapisać miasta. Sprawdź poprawność nazwy.");
             }
         })
         .catch(error => {
             console.error('Error:', error);
-            alert("Wystąpił błąd.");
+            alert("Wystąpił błąd połączenia.");
         });
 }

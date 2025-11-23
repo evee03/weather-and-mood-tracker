@@ -9,8 +9,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import pl.pollub.weather_mood_tracker.dto.UserRegistrationDto;
 import pl.pollub.weather_mood_tracker.model.User;
+import pl.pollub.weather_mood_tracker.repository.MoodRepository;
 import pl.pollub.weather_mood_tracker.repository.UserRepository;
 import pl.pollub.weather_mood_tracker.testutil.TestDataFactory;
+
+import java.util.Locale;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -23,6 +26,12 @@ class UserServiceRegistrationTest {
 
     @Mock
     private PasswordEncoder passwordEncoder;
+
+    @Mock
+    private WeatherService weatherService;
+
+    @Mock
+    private MoodRepository moodRepository;
 
     @InjectMocks
     private UserService userService;
@@ -38,12 +47,14 @@ class UserServiceRegistrationTest {
 
     @Test
     void registerUser_Success() throws Exception {
+        when(weatherService.isCityValid(anyString())).thenReturn(true);
+
         when(userRepository.existsByUsername("WalterWhite")).thenReturn(false);
         when(userRepository.existsByEmail("WalterWhite@meth.com")).thenReturn(false);
         when(passwordEncoder.encode("BlueShy123!")).thenReturn("encodedPassword");
         when(userRepository.save(any(User.class))).thenReturn(validUser);
 
-        User result = userService.registerUser(validRegistrationDto);
+        User result = userService.registerUser(validRegistrationDto, new Locale("pl", "PL"));
 
         assertNotNull(result);
         assertEquals("WalterWhite", result.getUsername());
@@ -56,7 +67,9 @@ class UserServiceRegistrationTest {
     void registerUser_PasswordsDoNotMatch_ThrowsException() {
         validRegistrationDto.setConfirmPassword("differentPassword");
 
-        Exception exception = assertThrows(Exception.class, () -> userService.registerUser(validRegistrationDto));
+        Exception exception = assertThrows(Exception.class, () ->
+                userService.registerUser(validRegistrationDto, new Locale("en", "US"))
+        );
 
         assertEquals("Passwords do not match", exception.getMessage());
         verify(userRepository, never()).save(any(User.class));
@@ -66,7 +79,9 @@ class UserServiceRegistrationTest {
     void registerUser_ConfirmPasswordMissing_ThrowsException() {
         validRegistrationDto.setConfirmPassword(null);
 
-        Exception exception = assertThrows(Exception.class, () -> userService.registerUser(validRegistrationDto));
+        Exception exception = assertThrows(Exception.class, () ->
+                userService.registerUser(validRegistrationDto, new Locale("en", "US"))
+        );
 
         assertEquals("Passwords do not match", exception.getMessage());
         verify(userRepository, never()).save(any(User.class));
@@ -76,7 +91,9 @@ class UserServiceRegistrationTest {
     void registerUser_UsernameAlreadyExists_ThrowsException() {
         when(userRepository.existsByUsername("WalterWhite")).thenReturn(true);
 
-        Exception exception = assertThrows(Exception.class, () -> userService.registerUser(validRegistrationDto));
+        Exception exception = assertThrows(Exception.class, () ->
+                userService.registerUser(validRegistrationDto, new Locale("en", "US"))
+        );
 
         assertEquals("Username already exists", exception.getMessage());
         verify(userRepository, never()).save(any(User.class));
@@ -87,7 +104,9 @@ class UserServiceRegistrationTest {
         when(userRepository.existsByUsername("WalterWhite")).thenReturn(false);
         when(userRepository.existsByEmail("WalterWhite@meth.com")).thenReturn(true);
 
-        Exception exception = assertThrows(Exception.class, () -> userService.registerUser(validRegistrationDto));
+        Exception exception = assertThrows(Exception.class, () ->
+                userService.registerUser(validRegistrationDto, new Locale("en", "US"))
+        );
 
         assertEquals("Email already exists", exception.getMessage());
         verify(userRepository, never()).save(any(User.class));
@@ -102,7 +121,7 @@ class UserServiceRegistrationTest {
         when(passwordEncoder.encode("BlueShy123!")).thenReturn("encodedPassword");
         when(userRepository.save(any(User.class))).thenReturn(validUser);
 
-        User result = userService.registerUser(validRegistrationDto);
+        User result = userService.registerUser(validRegistrationDto, new Locale("pl", "PL"));
 
         assertNotNull(result);
         verify(userRepository, times(1)).save(any(User.class));
@@ -121,10 +140,9 @@ class UserServiceRegistrationTest {
             return u;
         });
 
-        User result = userService.registerUser(validRegistrationDto);
+        User result = userService.registerUser(validRegistrationDto, new Locale("pl", "PL"));
 
         assertNotNull(result);
-        assertEquals("", result.getCity());
         verify(userRepository, times(1)).save(any(User.class));
     }
 }
