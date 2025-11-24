@@ -84,8 +84,15 @@ document.addEventListener('DOMContentLoaded', function() {
         const nodata = document.getElementById('readOnlyView').getAttribute('data-nodata-text');
 
         document.getElementById("roMood").textContent = data.moodLevel ? `${data.moodLevel}/5` : '-';
-        const emojis = ['?', '😞', '😕', '😐', '🙂', '😄'];
-        document.getElementById("roMoodEmoji").textContent = data.moodLevel ? emojis[data.moodLevel] : '';
+        const emojis = [
+            '?',
+            '<i class="bi bi-emoji-frown text-danger"></i>',
+            '<i class="bi bi-emoji-expressionless text-warning"></i>',
+            '<i class="bi bi-emoji-neutral text-secondary"></i>',
+            '<i class="bi bi-emoji-smile text-info"></i>',
+            '<i class="bi bi-emoji-laughing text-success"></i>'
+        ];
+        document.getElementById("roMoodEmoji").innerHTML = data.moodLevel ? emojis[data.moodLevel] : '';
         document.getElementById("roComment").textContent = data.moodComment || '';
 
         if (data.temperature !== null) {

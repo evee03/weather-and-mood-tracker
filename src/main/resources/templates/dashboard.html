@@ -18,9 +18,8 @@
 
 <nav class="navbar navbar-expand-lg bg-body-tertiary shadow-sm mb-4">
     <div class="container">
-        <a class="navbar-brand fw-bold text-primary d-flex align-items-center" href="#">
-            <i class="bi bi-clouds-fill me-2 fs-4"></i>
-            <span th:text="#{page.dashboard.navbar.title}">App</span>
+        <a class="navbar-brand align-items-center" href="#">
+            <img th:src="@{/images/Logo_.svg}" alt="Logo" class="logo-img">
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
@@ -53,7 +52,7 @@
                             <button class="dropdown-item d-flex justify-content-between align-items-center"
                                     onclick="changeTheme('light')" data-theme-value="light"
                                     th:classappend="${userTheme == 'light'} ? 'active'">
-                                <span><i class="bi bi-sun me-2"></i> Light</span>
+                                <span><i class="bi me-2"></i> Light</span>
                                 <i th:if="${userTheme == 'light'}" class="bi bi-check"></i>
                             </button>
                         </li>
@@ -61,7 +60,7 @@
                             <button class="dropdown-item d-flex justify-content-between align-items-center"
                                     onclick="changeTheme('dark')" data-theme-value="dark"
                                     th:classappend="${userTheme == 'dark'} ? 'active'">
-                                <span><i class="bi bi-moon-stars me-2"></i> Dark</span>
+                                <span><i class="bi me-2"></i> Dark</span>
                                 <i th:if="${userTheme == 'dark'}" class="bi bi-check"></i>
                             </button>
                         </li>
