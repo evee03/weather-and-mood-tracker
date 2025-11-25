@@ -325,6 +325,8 @@
                                 </div>
                             </div>
                             <textarea id="commentInput" class="form-control" rows="2" th:placeholder="#{mood.form.comment.placeholder}"></textarea>
+                            <div id="commentError" class="text-danger mt-1" th:attr="data-msg-too-long=#{mood.form.comment.tooLong}" style="display:none;">
+                            </div>
                         </div>
 
                         <hr class="my-3">
