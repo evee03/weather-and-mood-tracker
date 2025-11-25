@@ -18,14 +18,17 @@ function loadChartsData() {
         .then(data => {
             if (!data) return;
 
-            if(document.getElementById('scatterHydration')) {
-                renderScatterChart('scatterHydration', data.moodVsHydration, 'ml', 'Mood');
+            const scatterHydration = document.getElementById('scatterHydration');
+            if (scatterHydration) {
+                renderScatterChart('scatterHydration', data.moodVsHydration, 'ml', scatterHydration.dataset.labelY);
             }
-            if(document.getElementById('scatterPressure')) {
-                renderScatterChart('scatterPressure', data.moodVsPressure, 'hPa', 'Mood');
+            const scatterPressure = document.getElementById('scatterPressure')
+            if (scatterPressure) {
+                renderScatterChart('scatterPressure', data.moodVsPressure, 'hPa', scatterPressure.dataset.labelY);
             }
-            if(document.getElementById('scatterHumidity')) {
-                renderScatterChart('scatterHumidity', data.moodVsHumidity, '%', 'Mood');
+            const scatterHumidity = document.getElementById('scatterHumidity')
+            if (scatterHumidity) {
+                renderScatterChart('scatterHumidity', data.moodVsHumidity, '%', scatterHumidity.dataset.labelY);
             }
             if(document.getElementById('comparisonChart')) {
                 renderComparisonChart(data.myMoodHistory, data.cityMoodHistory);
