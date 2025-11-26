@@ -174,8 +174,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const moodRadio = document.querySelector('input[name="moodLevel"]:checked');
 
-        const activityRadio = document.querySelector('input[name="activity"]:checked');
-        const activities = activityRadio ? [activityRadio.value] : [];
+        const activityRadio = document.querySelectorAll('input[name="activity"]:checked');
+        const activities = Array.from(activityRadio).map(cb => cb.value);
+
 
         const payload = {
             date: currentModalDate,

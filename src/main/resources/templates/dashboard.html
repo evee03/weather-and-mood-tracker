@@ -64,6 +64,16 @@
                                 <i th:if="${userTheme == 'dark'}" class="bi bi-check"></i>
                             </button>
                         </li>
+                        <li><hr class="dropdown-divider"></li>
+
+                        <li>
+                            <button class="dropdown-item d-flex align-items-center gap-2"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#exportModal"
+                                    onclick="initExportModal()"> <i class="bi bi-download"></i>
+                                <span th:text="#{setting.export}">Export data</span>
+                            </button>
+                        </li>
                     </ul>
                 </li>
                 <li class="nav-item">
@@ -348,7 +358,7 @@
                             <h6 class="text-success fw-bold mb-2" th:text="#{activity.form.title}">Aktywność</h6>
                             <div class="d-flex flex-wrap gap-2 justify-content-center">
                                 <div th:each="type : ${T(pl.pollub.weather_mood_tracker.model.enums.ActivityType).values()}">
-                                    <input type="radio" class="btn-check activity-radio"
+                                    <input type="checkbox" class="btn-check activity-radio"
                                            name="activity"
                                            th:id="'act-'+${type.name()}"
                                            th:value="${type.name()}"
@@ -378,7 +388,51 @@
                         </div>
                     </form>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
 
+<div class="modal fade" id="exportModal" tabindex="-1" aria-hidden="true"
+     th:attr="data-msg-range=#{export.error.select.range},
+              data-msg-order=#{export.error.start.after.end},
+              data-msg-future=#{export.error.future},
+              data-msg-start-future=#{export.error.start.future}">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header bg-body-tertiary border-bottom-0">
+                <h5 class="modal-title fw-bold"><i class="bi bi-cloud-download text-primary me-2"> <span th:text="#{setting.export}">Export data</span></i></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <form id="exportForm">
+                    <div class="mb-3">
+                        <label for="exportFrom" class="form-label fw-bold text-muted small text-uppercase" th:text="#{export.from}">From</label>
+                        <input type="date" id="exportFrom" class="form-control form-control-lg">
+                    </div>
+                    <div class="mb-4">
+                        <label for="exportTo" class="form-label fw-bold text-muted small text-uppercase" th:text="#{export.to}">To</label>
+                        <input type="date" id="exportTo" class="form-control form-control-lg">
+                    </div>
+
+                    <div class="d-flex gap-3 justify-content-center mb-4">
+                        <input type="radio" class="btn-check" name="exportFormat" id="formatJson" value="json" checked>
+                        <label class="btn btn-outline-primary px-4 py-2 rounded-pill" for="formatJson">
+                            <i class="bi bi-filetype-json fs-5 d-block"></i> JSON
+                        </label>
+
+                        <input type="radio" class="btn-check" name="exportFormat" id="formatXml" value="xml">
+                        <label class="btn btn-outline-warning px-4 py-2 rounded-pill" for="formatXml">
+                            <i class="bi bi-filetype-xml fs-5 d-block"></i> XML
+                        </label>
+                    </div>
+
+                    <div class="d-grid">
+                        <button type="button" class="btn btn-primary btn-lg" onclick="triggerExport()" th:text="#{export.download}">
+                            Download file
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -391,5 +445,6 @@
 <script th:src="@{/js/water-tracker.js}"></script>
 <script th:src="@{/js/ajax-forms.js}"></script>
 <script th:src="@{/js/charts-analytics.js}"></script>
+<script th:src="@{/js/export.js}"></script>
 </body>
 </html>
