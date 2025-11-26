@@ -1,20 +1,20 @@
 package pl.pollub.weather_mood_tracker.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import pl.pollub.weather_mood_tracker.model.enums.WeatherType;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Entity
 @Table(name = "weathers")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@ToString
 public class Weather {
 
     @Id
@@ -37,5 +37,19 @@ public class Weather {
     private Integer pressure;
 
     @Column(name = "weather_type", nullable = false, length = 10)
+    @Enumerated(EnumType.STRING)
     private WeatherType weatherType;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Weather)) return false;
+        Weather weather = (Weather) o;
+        return id != null && Objects.equals(id, weather.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }
