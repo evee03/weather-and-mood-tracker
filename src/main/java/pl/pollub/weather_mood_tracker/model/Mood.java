@@ -3,19 +3,19 @@ package pl.pollub.weather_mood_tracker.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Entity
 @Table(name = "moods")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@ToString(exclude = "user")
 public class Mood {
 
     @Id
@@ -41,4 +41,17 @@ public class Mood {
 
     @Column(nullable = false)
     private LocalDate date;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Mood)) return false;
+        Mood mood = (Mood) o;
+        return id != null && Objects.equals(id, mood.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

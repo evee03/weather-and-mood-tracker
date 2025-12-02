@@ -2,22 +2,21 @@ package pl.pollub.weather_mood_tracker.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Type;
+import lombok.*;
 import pl.pollub.weather_mood_tracker.model.converter.MapToJsonConverter;
 import pl.pollub.weather_mood_tracker.model.enums.WeatherType;
 
 import java.util.Map;
+import java.util.Objects;
 
 @Entity
 @Table(name = "stats")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@ToString(exclude = "user")
 public class Stats {
 
     @Id
@@ -48,4 +47,17 @@ public class Stats {
 
     @Column(name = "avg_city_mood")
     private Double avgCityMood;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Stats)) return false;
+        Stats stats = (Stats) o;
+        return id != null && Objects.equals(id, stats.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }
