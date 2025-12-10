@@ -127,22 +127,16 @@ class MoodMessagesTest {
     }
 
     @Test
-    void shouldGetPersonalVsCommunityStatsTitlePL() {
-        MessageProvider messageProvider = new MessageProvider();
+    void shouldGetPersonalVsCommunityStatsTitlePLorEN() {
+        MessageProvider messageProviderPL = new MessageProvider();
         Locale localePL = Locale.of("pl", "PL");
-
-        String message = messageProvider.getMessage("stats.charts.personal.vs.community", localePL);
-
-        assertEquals("Twój Nastrój vs Reszta Miasta (30 dni)", message);
-    }
-
-    @Test
-    void shouldGetPersonalVsCommunityStatsTitleEN() {
-        MessageProvider messageProvider = new MessageProvider();
+        MessageProvider messageProviderEN = new MessageProvider();
         Locale localeEN = Locale.of("en", "US");
 
-        String message = messageProvider.getMessage("stats.charts.personal.vs.community", localeEN);
-
-        assertEquals("Your Mood vs City Average (30 days)", message);
+        String messagePL = messageProviderPL.getMessage("stats.charts.personal.vs.community", localePL);
+        assertEquals("Twój Nastrój vs Reszta Miasta (30 dni)", messagePL);
+        String messageEN = messageProviderEN.getMessage("stats.charts.personal.vs.community", localeEN);
+        assertEquals("Your Mood vs City Average (30 days)", messageEN);
     }
+
 }
