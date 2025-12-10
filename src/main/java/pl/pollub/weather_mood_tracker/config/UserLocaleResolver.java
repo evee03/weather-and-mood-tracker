@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.LocaleResolver;
 import pl.pollub.weather_mood_tracker.model.User;
-import pl.pollub.weather_mood_tracker.service.UserService;
+import pl.pollub.weather_mood_tracker.auth.UserService;
 
 import java.util.Locale;
 import java.util.Optional;

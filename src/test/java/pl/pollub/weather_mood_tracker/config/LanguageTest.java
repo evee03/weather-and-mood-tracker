@@ -8,38 +8,42 @@ class LanguageTest {
 
     @Test
     void shouldGetPolishMessage() {
-        Language language = new Language(new Locale("pl", "PL"));
+        MessageProvider messageProvider = new MessageProvider();
+        Locale locale = Locale.of("pl", "PL");
 
-        String message = language.getMessage("user.username.required");
+        String message = messageProvider.getMessage("user.username.required", locale);
 
         assertEquals("Nazwa użytkownika jest wymagana", message);
     }
 
     @Test
     void shouldGetEnglishMessage() {
-        Language language = new Language(new Locale("en", "US"));
+        MessageProvider messageProvider = new MessageProvider();
+        Locale locale = Locale.of("en", "US");
 
-        String message = language.getMessage("user.username.required");
+        String message = messageProvider.getMessage("user.username.required", locale);
 
         assertEquals("Username is required", message);
     }
 
     @Test
     void shouldGetPageTitle() {
-        Language languagePL = new Language(new Locale("pl", "PL"));
-        Language languageEN = new Language(new Locale("en", "US"));
+        MessageProvider messageProvider = new MessageProvider();
+        Locale localePL = Locale.of("pl", "PL");
+        Locale localeEN = Locale.of("en", "US");
 
         assertEquals("Logowanie - Weather Mood Tracker",
-                languagePL.getMessage("page.login.title"));
+                messageProvider.getMessage("page.login.title", localePL));
         assertEquals("Login - Weather Mood Tracker",
-                languageEN.getMessage("page.login.title"));
+                messageProvider.getMessage("page.login.title", localeEN));
     }
 
     @Test
     void shouldGetDashboardWelcomeMessage() {
-        Language language = new Language(new Locale("pl", "PL"));
+        MessageProvider messageProvider = new MessageProvider();
+        Locale locale = Locale.of("pl", "PL");
 
-        String message = language.getMessage("page.dashboard.welcome", "Jan");
+        String message = messageProvider.getMessage("page.dashboard.welcome", locale, "Jan");
 
         assertEquals("Witaj, Jan!", message);
     }

@@ -1,4 +1,4 @@
-package pl.pollub.weather_mood_tracker.config;
+package pl.pollub.weather_mood_tracker.auth;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

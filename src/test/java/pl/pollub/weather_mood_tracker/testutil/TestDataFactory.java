@@ -1,7 +1,7 @@
 package pl.pollub.weather_mood_tracker.testutil;
 
-import pl.pollub.weather_mood_tracker.dto.UserLoginDto;
-import pl.pollub.weather_mood_tracker.dto.UserRegistrationDto;
+import pl.pollub.weather_mood_tracker.auth.UserLoginDto;
+import pl.pollub.weather_mood_tracker.auth.UserRegistrationDto;
 import pl.pollub.weather_mood_tracker.model.User;
 
 public final class TestDataFactory {

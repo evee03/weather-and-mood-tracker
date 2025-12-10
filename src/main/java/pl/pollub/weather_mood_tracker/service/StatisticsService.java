@@ -31,9 +31,8 @@ public class StatisticsService {
         List<Hydration> myHydrations = hydrationRepository.findAllByUserAndDateBetween(user, startDate, endDate);
 
         List<Mood> allMoods = moodRepository.findAllByDateBetween(startDate, endDate);
-        List<Hydration> allHydrations = hydrationRepository.findAll().stream()
-                .filter(h -> !h.getDate().isBefore(startDate))
-                .toList();
+
+        List<Hydration> allHydrations = hydrationRepository.findAllByDateBetween(startDate, endDate);
 
         List<CommunityStatsDto.DataPoint> moodVsHydration = new ArrayList<>();
         Map<Long, Map<LocalDate, Integer>> hydrationMap = new HashMap<>();

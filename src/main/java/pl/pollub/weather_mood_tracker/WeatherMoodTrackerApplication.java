@@ -12,8 +12,4 @@ public class WeatherMoodTrackerApplication {
 		SpringApplication.run(WeatherMoodTrackerApplication.class, args);
 	}
 
-	@Bean
-	public WebClient webClient() {
-		return WebClient.builder().build();
-	}
 }
