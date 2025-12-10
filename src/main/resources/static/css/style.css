@@ -74,12 +74,10 @@ body.auth-page {
    ELEMENTY DASHBOARDU
    ======================================== */
 .weather-widget-bg {
-    /* ZMIANA: Usunięty gradient, jednolity kolor (np. głęboki fiolet/niebieski) */
     background-color: #4e54c8;
     color: white;
 }
 
-/* Ikony nastroju */
 .mood-option input { display: none; }
 .mood-option label {
     font-size: 2rem;
@@ -93,7 +91,6 @@ body.auth-page {
     transform: scale(1.25);
 }
 
-/* Szklanki wody */
 .water-glass {
     font-size: 1.8rem;
     cursor: pointer;
@@ -103,7 +100,6 @@ body.auth-page {
 }
 .water-glass.filled { opacity: 1; filter: grayscale(0%); transform: scale(1.1); }
 
-/* Kompatybilność z Twoim starym JS (ajax-forms) */
 .alert-error {
     background-color: #f8d7da;
     color: #842029;
@@ -122,9 +118,8 @@ body.auth-page {
     text-transform: capitalize;
 }
 
-/* NAPRAWA: Kolor dni tygodnia w nagłówku kalendarza */
 .fc-col-header-cell-cushion {
-    color: var(--bs-body-color); /* Dostosowuje się do motywu Bootstrapa */
+    color: var(--bs-body-color);
     text-decoration: none;
 }
 [data-bs-theme="dark"] .fc-col-header-cell-cushion {
@@ -135,7 +130,6 @@ body.auth-page {
 .fc-daygrid-day:hover { background-color: var(--bs-tertiary-bg); }
 .fc-day-today { background-color: var(--bs-primary-bg-subtle) !important; }
 
-/* FullCalendar Dark Mode fixes */
 [data-bs-theme="dark"] .fc-button-primary {
     background-color: var(--bs-dark);
     border-color: var(--bs-gray-700);
@@ -152,23 +146,20 @@ body.auth-page {
    STYLE WYDARZEŃ KALENDARZA (Ptaszki)
    ======================================== */
 
-/* Tło dla wypełnionego dnia */
 .filled-day-bg {
-    opacity: 0.6; /* Lekka przezroczystość tła */
+    opacity: 0.6;
 }
 
-/* Ikonka ✅ */
 .filled-day-icon {
-    background: transparent !important; /* Usuwa domyślne tło zdarzenia */
-    border: none !important;            /* Usuwa obramowanie */
-    box-shadow: none !important;        /* Usuwa cień */
-    text-align: center;                 /* Wyśrodkowanie */
-    font-size: 1.2rem;                  /* Rozmiar ikonki */
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    text-align: center;
+    font-size: 1.2rem;
     margin-top: 0;
-    pointer-events: none;               /* Ważne: pozwala klikać "przez" ikonę w komórkę dnia */
+    pointer-events: none;
 }
 
-/* Ukryj kropkę (dot) która domyślnie pojawia się przy zdarzeniach w FullCalendar */
 .filled-day-icon .fc-event-dot {
     display: none;
 }

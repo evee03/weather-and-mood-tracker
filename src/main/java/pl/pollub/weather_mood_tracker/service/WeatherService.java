@@ -9,6 +9,7 @@ import pl.pollub.weather_mood_tracker.model.Weather;
 import pl.pollub.weather_mood_tracker.model.enums.WeatherType;
 import pl.pollub.weather_mood_tracker.repository.WeatherRepository;
 import org.springframework.web.reactive.function.client.WebClient;
+import pl.pollub.weather_mood_tracker.util.AppConstants;
 
 import java.time.LocalDate;
 import java.util.Optional;
@@ -30,7 +31,7 @@ public class WeatherService {
     public Weather getOrCreateWeather(String city) {
         LocalDate today = LocalDate.now();
 
-        String targetCity = (city == null || city.trim().isEmpty()) ? "Warszawa" : city;
+        String targetCity = (city == null || city.trim().isEmpty()) ? AppConstants.DEFAULT_CITY : city;
 
         Optional<Weather> existingWeather = weatherRepository.findByCityAndDate(targetCity, today);
         if (existingWeather.isPresent()) {

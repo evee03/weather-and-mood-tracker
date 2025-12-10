@@ -13,7 +13,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@ToString(exclude = "user") // Krytyczne dla relacji dwukierunkowej!
+@ToString(exclude = "user")
 public class Settings {
 
     @Id

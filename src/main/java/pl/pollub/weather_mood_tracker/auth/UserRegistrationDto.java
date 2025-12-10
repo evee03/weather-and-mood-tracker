@@ -1,4 +1,4 @@
-package pl.pollub.weather_mood_tracker.dto;
+package pl.pollub.weather_mood_tracker.auth;
 
 import jakarta.validation.GroupSequence;
 import jakarta.validation.constraints.*;

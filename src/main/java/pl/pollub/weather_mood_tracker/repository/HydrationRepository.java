@@ -13,4 +13,6 @@ import java.util.Optional;
 public interface HydrationRepository extends JpaRepository<Hydration, Long> {
     Optional<Hydration> findByUserAndDate(User user, LocalDate date);
     List<Hydration> findAllByUserAndDateBetween(User user, LocalDate start, LocalDate end);
+
+    List<Hydration> findAllByDateBetween(LocalDate start, LocalDate end);
 }

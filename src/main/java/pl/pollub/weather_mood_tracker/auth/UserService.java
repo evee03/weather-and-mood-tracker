@@ -1,17 +1,21 @@
-package pl.pollub.weather_mood_tracker.service;
+package pl.pollub.weather_mood_tracker.auth;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.pollub.weather_mood_tracker.config.Language;
-import pl.pollub.weather_mood_tracker.dto.UserLoginDto;
-import pl.pollub.weather_mood_tracker.dto.UserRegistrationDto;
+// 1. Importujemy Twoją nową klasę do tłumaczeń (zmieniona nazwa z Language)
+import pl.pollub.weather_mood_tracker.config.MessageProvider;
 import pl.pollub.weather_mood_tracker.model.Settings;
 import pl.pollub.weather_mood_tracker.model.User;
 import pl.pollub.weather_mood_tracker.model.enums.Theme;
+// 2. Teraz możemy bezpiecznie zaimportować enum Language bez konfliktu
+import pl.pollub.weather_mood_tracker.model.enums.Language;
 import pl.pollub.weather_mood_tracker.repository.MoodRepository;
 import pl.pollub.weather_mood_tracker.repository.UserRepository;
+// 3. Import stałych (utwórz ten plik zgodnie z zaleceniem)
+import pl.pollub.weather_mood_tracker.service.WeatherService;
+import pl.pollub.weather_mood_tracker.util.AppConstants;
 
 import java.time.LocalDate;
 import java.util.Locale;
@@ -25,21 +29,19 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final WeatherService weatherService;
     private final MoodRepository moodRepository;
-
-    // W UserService.java
+    private final MessageProvider messageProvider;
 
     @Transactional
     public User registerUser(UserRegistrationDto dto, Locale locale) throws Exception {
-        Language language = new Language(locale);
 
         if (!dto.getPassword().equals(dto.getConfirmPassword())) {
-            throw new Exception(language.getMessage("user.passwords.not.match"));
+            throw new Exception(messageProvider.getMessage("user.passwords.not.match", locale));
         }
         if (userRepository.existsByUsername(dto.getUsername())) {
-            throw new Exception(language.getMessage("user.username.exists"));
+            throw new Exception(messageProvider.getMessage("user.username.exists", locale));
         }
         if (userRepository.existsByEmail(dto.getEmail())) {
-            throw new Exception(language.getMessage("user.email.exists"));
+            throw new Exception(messageProvider.getMessage("user.email.exists", locale));
         }
 
         User user = new User();
@@ -47,16 +49,19 @@ public class UserService {
         user.setEmail(dto.getEmail());
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
 
-        String city = (dto.getCity() != null && !dto.getCity().trim().isEmpty()) ? dto.getCity() : "Warszawa";
+        String city = (dto.getCity() != null && !dto.getCity().trim().isEmpty())
+                ? dto.getCity()
+                : AppConstants.DEFAULT_CITY;
+
         if (weatherService.isCityValid(city)) {
             user.setCity(city);
         } else {
-            user.setCity("Warszawa");
+            user.setCity(AppConstants.DEFAULT_CITY);
         }
 
         user.setSettings(Settings.builder()
                 .user(user)
-                .preferredLanguage(pl.pollub.weather_mood_tracker.model.enums.Language.PL)
+                .preferredLanguage(Language.PL)
                 .theme(Theme.LIGHT)
                 .build());
 
@@ -77,8 +82,10 @@ public class UserService {
     @Transactional
     public void updateUserLanguage(Long userId, Locale locale) {
         findById(userId).ifPresent(user -> {
-            if(user.getSettings() == null) user.setSettings(Settings.builder().user(user).theme(Theme.LIGHT).build());
-            user.getSettings().setPreferredLanguage(pl.pollub.weather_mood_tracker.model.enums.Language.fromString(locale.getLanguage()));
+            if(user.getSettings() == null) {
+                user.setSettings(Settings.builder().user(user).theme(Theme.LIGHT).build());
+            }
+            user.getSettings().setPreferredLanguage(Language.fromString(locale.getLanguage()));
             userRepository.save(user);
         });
     }
@@ -86,7 +93,9 @@ public class UserService {
     @Transactional
     public void updateUserTheme(Long userId, String themeStr) {
         findById(userId).ifPresent(user -> {
-            if(user.getSettings() == null) user.setSettings(Settings.builder().user(user).preferredLanguage(pl.pollub.weather_mood_tracker.model.enums.Language.PL).build());
+            if(user.getSettings() == null) {
+                user.setSettings(Settings.builder().user(user).preferredLanguage(Language.PL).build());
+            }
             user.getSettings().setTheme(themeStr.equalsIgnoreCase("DARK") ? Theme.DARK : Theme.LIGHT);
             userRepository.save(user);
         });

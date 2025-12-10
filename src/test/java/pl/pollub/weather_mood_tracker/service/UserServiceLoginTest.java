@@ -7,10 +7,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import pl.pollub.weather_mood_tracker.auth.UserService;
 import pl.pollub.weather_mood_tracker.model.User;
 import pl.pollub.weather_mood_tracker.repository.UserRepository;
 import pl.pollub.weather_mood_tracker.testutil.TestDataFactory;
-import pl.pollub.weather_mood_tracker.dto.UserLoginDto;
+import pl.pollub.weather_mood_tracker.auth.UserLoginDto;
 
 import java.util.Locale;
 import java.util.Optional;
